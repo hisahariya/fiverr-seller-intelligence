@@ -35,10 +35,14 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
       **Action needed**: claim the site code free at goatcounter.com.
 - [x] Forms via FormSubmit (waitlist, makeover requests, benchmark sharing).
       **Action needed**: click the one-time FormSubmit activation email on the first submission.
-- [x] 2 SEO articles, cross-linked
+- [x] 3 SEO articles in `blog/` (titles, pricing, description writing), cross-linked and listed in the
+      homepage Guides section
+- [x] Description check scores by characters against Fiverr's 1,200-character limit (full points at
+      600–1,200, warning above 1,200). Builder descriptions currently max out at ~890 characters; builder.js
+      drops the "How it works" then "Why work with me" sections if a category ever pushes one over.
 - [x] Distribution copy (`marketing/distribution-posts.md`) — **Action needed**: post it (update links
       to point at the Gig Builder, which is now the stronger hook)
-- [ ] 1-2 more articles (description writing, review velocity)
+- [ ] 1 more article (review velocity)
 - [ ] Testimonials once the first makeovers are delivered
 - [ ] Short-form video walkthrough of the Gig Builder for TikTok/YouTube Shorts
 

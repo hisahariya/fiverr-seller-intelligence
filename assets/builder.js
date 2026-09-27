@@ -1,5 +1,6 @@
 (function (root) {
   const LEVELS = { new: 0.8, growing: 1, established: 1.3 };
+  const DESC_LIMIT = 1200; // Fiverr's gig description character limit
 
   function article(phrase) {
     const first = phrase.trim().split(/\s+/)[0] || '';
@@ -60,28 +61,38 @@
     const deliverableLines = cat.pkgs[1][2].split(', ').map(d => '- ' + d.charAt(0).toUpperCase() + d.slice(1));
     const phrase = niche + ' ' + cat.noun;
     const [needA, needB] = tags.filter(t => cat.tags.includes(t)).map(prose);
-    const description = [
-      `Looking for ${article(phrase)} ${phrase} for ${aud}? You're in the right place.`,
-      '',
-      `Whether you need ${needA} or ${needB}, I focus on work that looks professional, arrives on time and fits your goals.`,
-      '',
-      'What you get (Standard package):',
-      ...deliverableLines,
-      '',
-      'Why work with me:',
-      `- [Your years of experience] in ${cat.name.replace(/\s*\(.*\)/, '')}`,
-      '- Fast, clear communication from start to finish',
-      '- Revisions included so the final result is right',
-      '- On-time delivery, every time',
-      '',
-      'How it works:',
-      '1. Message me with your requirements',
-      '2. I confirm the scope and recommend the right package',
-      '3. You receive a first version for feedback',
-      '4. Final delivery with every agreed file',
-      '',
-      "Message me before ordering to discuss your project. I'm happy to answer questions and recommend the best package for you."
-    ].join('\n');
+    const sections = {
+      intro: [
+        `Looking for ${article(phrase)} ${phrase} for ${aud}? You're in the right place.`,
+        '',
+        `Whether you need ${needA} or ${needB}, I focus on work that looks professional, arrives on time and fits your goals.`
+      ],
+      deliverables: ['What you get (Standard package):', ...deliverableLines],
+      why: [
+        'Why work with me:',
+        `- [Your years of experience] in ${cat.name.replace(/\s*\(.*\)/, '')}`,
+        '- Fast, clear communication from start to finish',
+        '- Revisions included so the final result is right',
+        '- On-time delivery, every time'
+      ],
+      process: [
+        'How it works:',
+        '1. Message me with your requirements',
+        '2. I confirm the scope and recommend the right package',
+        '3. You receive a first version for feedback',
+        '4. Final delivery with every agreed file'
+      ],
+      cta: ["Message me before ordering to discuss your project. I'm happy to answer questions and recommend the best package for you."]
+    };
+    // Fiverr rejects descriptions over DESC_LIMIT characters: drop the least essential sections until it fits
+    const order = ['intro', 'deliverables', 'why', 'process', 'cta'];
+    const join = keys => keys.map(k => sections[k].join('\n')).join('\n\n');
+    let keep = order.slice();
+    for (const drop of ['process', 'why']) {
+      if (join(keep).length <= DESC_LIMIT) break;
+      keep = keep.filter(k => k !== drop);
+    }
+    const description = join(keep).slice(0, DESC_LIMIT);
 
     return {
       category: cat,
@@ -94,6 +105,6 @@
     };
   }
 
-  root.GigBuilder = { buildGig, article, LEVELS };
+  root.GigBuilder = { buildGig, article, LEVELS, DESC_LIMIT };
   if (typeof module !== 'undefined') module.exports = root.GigBuilder;
 })(typeof window !== 'undefined' ? window : globalThis);

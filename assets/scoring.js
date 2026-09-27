@@ -1,6 +1,6 @@
 (function (root) {
   function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
-  function wordCount(s) { return (s.trim().match(/\S+/g) || []).length; }
+  const DESC_LIMIT = 1200; // Fiverr's gig description character limit
 
   function catVocab(cat) {
     return [...new Set(cat.kw.concat(cat.tags).map(s => s.toLowerCase()))];
@@ -66,10 +66,11 @@
   function scoreDescription(desc) {
     const tips = [];
     let score = 0;
-    const words = wordCount(desc);
-    if (words >= 120 && words <= 300) score += 6;
-    else if (words >= 80 && words <= 400) { score += 3; tips.push('Aim for 120–300 words — enough to build trust and answer objections without losing the reader.'); }
-    else tips.push('Description length is off — very short descriptions under-sell you, very long ones lose readers.');
+    const chars = desc.trim().length;
+    if (chars > DESC_LIMIT) tips.push(`Your description is ${chars.toLocaleString('en-US')} characters — Fiverr won't accept more than 1,200. Cut at least ${chars - DESC_LIMIT}.`);
+    else if (chars >= 600) score += 6;
+    else if (chars >= 400) { score += 3; tips.push(`Your description is ${chars} characters — aim for 600–1,200 to build trust and answer objections.`); }
+    else tips.push('Description is too short — use 600–1,200 characters to cover what you deliver, your process and revisions.');
 
     if (/\n\s*[-•\d]/.test(desc) || (desc.match(/\n/g) || []).length >= 3) score += 3;
     else tips.push('Break the description into short paragraphs or bullet points — walls of text get skipped.');
@@ -191,6 +192,6 @@
     ];
   }
 
-  root.GigScoring = { runAudit, wordCount };
+  root.GigScoring = { runAudit, DESC_LIMIT };
   if (typeof module !== 'undefined') module.exports = root.GigScoring;
 })(typeof window !== 'undefined' ? window : globalThis);
