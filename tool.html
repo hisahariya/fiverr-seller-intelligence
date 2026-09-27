@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gig Health Check — Free Fiverr Gig Audit</title>
+<meta name="description" content="Paste your Fiverr gig details and get an instant, data-driven score across 8 growth dimensions with specific fixes.">
+<style>
+  :root{
+    --bg:#0b0d12; --panel:#12151c; --panel-2:#181c25; --border:#242a36;
+    --text:#e7eaf1; --muted:#9aa3b2; --accent:#33d17a; --accent-2:#1ee8a7;
+    --warn:#f5a623; --bad:#f0505a; --radius:12px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f7fb; --panel:#ffffff; --panel-2:#f0f2f7; --border:#e2e5ec; --text:#1a1d24; --muted:#5b6270; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  header{padding:24px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:1100px;margin:0 auto;}
+  header a{color:var(--muted);text-decoration:none;font-size:14px}
+  .brand{font-weight:700;font-size:18px}
+  .brand span{color:var(--accent-2)}
+  main{max-width:1100px;margin:0 auto;padding:24px 20px 80px;}
+  h1{font-size:28px;margin:0 0 6px}
+  .sub{color:var(--muted);margin:0 0 28px;font-size:15px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:860px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+  fieldset{border:0;padding:0;margin:0 0 18px}
+  legend{font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:10px}
+  label{display:block;font-size:13px;color:var(--muted);margin:12px 0 4px}
+  label:first-child{margin-top:0}
+  input,textarea{width:100%;padding:10px 12px;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit}
+  textarea{min-height:120px;resize:vertical}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .checkrow{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .checkrow input{width:auto}
+  button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:8px;background:var(--accent);color:#06120b;font-weight:700;font-size:15px;cursor:pointer}
+  button:hover{background:var(--accent-2)}
+  #results{display:none}
+  .score-hero{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}
+  .score-num{font-size:56px;font-weight:800;line-height:1}
+  .score-label{color:var(--muted);font-size:14px}
+  .verdict{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;display:inline-block;margin-top:6px}
+  .v-good{background:rgba(51,209,122,.15);color:var(--accent)}
+  .v-mid{background:rgba(245,166,35,.15);color:var(--warn)}
+  .v-bad{background:rgba(240,80,90,.15);color:var(--bad)}
+  .dim{border-top:1px solid var(--border);padding:14px 0}
+  .dim:first-child{border-top:0}
+  .dim-head{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px}
+  .bar{height:6px;border-radius:999px;background:var(--panel-2);overflow:hidden;margin-bottom:8px}
+  .bar>div{height:100%;background:var(--accent)}
+  .tips{margin:0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.6}
+  .tips li{margin-bottom:2px}
+  .cta{margin-top:24px;padding:18px;background:var(--panel-2);border-radius:8px;border:1px dashed var(--border);font-size:14px}
+  .cta a{color:var(--accent-2);font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Gig<span>Health</span>Check</div>
+  <a href="index.html">← Back to Growth Intelligence</a>
+</header>
+<main>
+  <h1>Free Gig Health Check</h1>
+  <p class="sub">Paste in your gig's real details. The scoring engine runs entirely in your browser — nothing is sent anywhere.</p>
+
+  <div class="grid">
+    <div class="card">
+      <form id="auditForm">
+        <fieldset>
+          <legend>Gig basics</legend>
+          <label for="title">Gig title</label>
+          <input id="title" placeholder="I will design a modern minimalist logo for your brand">
+          <label for="category">Category</label>
+          <input id="category" placeholder="Logo Design">
+          <label for="tags">Tags (comma separated)</label>
+          <input id="tags" placeholder="logo design, branding, minimalist logo">
+        </fieldset>
+
+        <fieldset>
+          <legend>Description</legend>
+          <label for="description">Gig description</label>
+          <textarea id="description" placeholder="Paste your full gig description here..."></textarea>
+        </fieldset>
+
+        <fieldset>
+          <legend>Pricing (package prices in USD)</legend>
+          <div class="row3">
+            <div><label for="basicPrice">Basic</label><input id="basicPrice" type="number" min="0" placeholder="15"></div>
+            <div><label for="standardPrice">Standard</label><input id="standardPrice" type="number" min="0" placeholder="35"></div>
+            <div><label for="premiumPrice">Premium</label><input id="premiumPrice" type="number" min="0" placeholder="65"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Delivery & revisions</legend>
+          <div class="row2">
+            <div><label for="deliveryDays">Delivery time (days)</label><input id="deliveryDays" type="number" min="0" placeholder="3"></div>
+            <div><label for="revisions">Revisions included</label><input id="revisions" type="number" min="0" placeholder="2"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Reputation</legend>
+          <div class="row2">
+            <div><label for="rating">Rating (0–5)</label><input id="rating" type="number" min="0" max="5" step="0.1" placeholder="4.9"></div>
+            <div><label for="reviewCount">Number of reviews</label><input id="reviewCount" type="number" min="0" placeholder="42"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Presentation & responsiveness</legend>
+          <div class="row2">
+            <div><label for="galleryImages">Gallery images</label><input id="galleryImages" type="number" min="0" placeholder="5"></div>
+            <div><label for="responseTime">Avg. response time (hours)</label><input id="responseTime" type="number" min="0" placeholder="2"></div>
+          </div>
+          <div class="checkrow">
+            <input id="hasVideo" type="checkbox">
+            <label for="hasVideo" style="margin:0">Gig includes a video</label>
+          </div>
+          <label for="extrasCount">Number of paid extras/upsells offered</label>
+          <input id="extrasCount" type="number" min="0" placeholder="3">
+        </fieldset>
+
+        <button type="submit">Run Gig Health Check</button>
+      </form>
+    </div>
+
+    <div class="card" id="results">
+      <div class="score-hero">
+        <div>
+          <div class="score-num" id="scoreNum">0</div>
+          <div class="score-label">/ 100</div>
+        </div>
+        <div>
+          <div id="verdict" class="verdict">—</div>
+        </div>
+      </div>
+      <div id="dimensions"></div>
+      <div class="cta">
+        Want a deeper competitor comparison and a monthly re-score? <a href="index.html#pricing">See Growth Intelligence plans →</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+function wordCount(s){ return (s.trim().match(/\S+/g) || []).length; }
+
+function scoreTitle(title, category){
+  const tips = [];
+  let score = 0;
+  const len = title.trim().length;
+  if(len >= 40 && len <= 70){ score += 6; }
+  else if(len >= 20 && len <= 90){ score += 3; tips.push('Aim for 40–70 characters — long enough to be descriptive, short enough to avoid truncation in search results.'); }
+  else { tips.push('Title length is off target. Buyers scan titles fast — 40–70 characters reads best.'); }
+
+  if(/^i will\b/i.test(title.trim())){ score += 2; }
+  else { tips.push('Fiverr\'s algorithm and buyers both respond to the "I will..." format — consider using it.'); }
+
+  const shoutyWords = (title.match(/\b[A-Z]{4,}\b/g) || []).length;
+  if(shoutyWords === 0){ score += 3; }
+  else { tips.push('Avoid ALL-CAPS words in the title — it reads as spammy and can hurt trust.'); }
+
+  const excessivePunct = /[!?]{2,}/.test(title);
+  if(!excessivePunct){ score += 2; }
+  else { tips.push('Remove repeated punctuation (!!!, ???) — it looks unprofessional in search listings.'); }
+
+  const cat = category.trim().toLowerCase();
+  if(cat && title.toLowerCase().includes(cat.split(' ')[0])){ score += 2; }
+  else if(cat){ tips.push('Work your main category keyword naturally into the title for better search matching.'); }
+
+  return { label: 'Title Quality', score: clamp(score, 0, 15), max: 15, tips };
+}
+
+function scorePricing(basic, standard, premium){
+  const tips = [];
+  let score = 0;
+  const hasAll = basic > 0 && standard > 0 && premium > 0;
+  if(hasAll){ score += 5; }
+  else { tips.push('Offer all three package tiers (Basic/Standard/Premium) — single-price gigs leave money on the table.'); }
+
+  if(hasAll){
+    const stdRatio = standard / basic;
+    const premRatio = premium / basic;
+    if(stdRatio >= 1.4 && premRatio >= 1.8){ score += 5; }
+    else { tips.push('Widen the price gap between tiers (Standard ≥1.4x Basic, Premium ≥1.8x Basic) so upgrading feels like an obvious value jump.'); }
+
+    if(premRatio <= 6){ score += 2; }
+    else { tips.push('Your Premium tier may be priced too far above Basic — buyers can struggle to see the connection.'); }
+  }
+
+  if(basic >= 5){ score += 3; }
+  else if(hasAll){ tips.push('A Basic price under $5 often signals a race-to-the-bottom gig — consider raising your floor.'); }
+
+  return { label: 'Pricing Strategy', score: clamp(score, 0, 15), max: 15, tips };
+}
+
+function scoreDescription(desc){
+  const tips = [];
+  let score = 0;
+  const words = wordCount(desc);
+  if(words >= 120 && words <= 300){ score += 6; }
+  else if(words >= 80 && words <= 400){ score += 3; tips.push('Aim for 120–300 words — enough to build trust and answer objections without losing the reader.'); }
+  else { tips.push('Description length is off — very short descriptions under-sell you, very long ones lose readers.'); }
+
+  const hasStructure = /\n\s*[-•\d]/.test(desc) || (desc.match(/\n/g) || []).length >= 3;
+  if(hasStructure){ score += 3; }
+  else { tips.push('Break the description into short paragraphs or bullet points — walls of text get skipped.'); }
+
+  const hasCTA = /(message me|contact me|order now|let'?s (talk|discuss|chat)|reach out|send me)/i.test(desc);
+  if(hasCTA){ score += 3; }
+  else { tips.push('End with a clear call to action ("Message me before ordering to discuss your project").'); }
+
+  const mentionsLogistics = /(revision|turnaround|deliver|delivery)/i.test(desc);
+  if(mentionsLogistics){ score += 3; }
+  else { tips.push('Mention delivery time and revisions explicitly — it reduces pre-purchase questions and buyer hesitation.'); }
+
+  return { label: 'Description Quality', score: clamp(score, 0, 15), max: 15, tips };
+}
+
+function scoreReviews(rating, count){
+  const tips = [];
+  let score = 0;
+  if(rating >= 4.9){ score += 7; }
+  else if(rating >= 4.7){ score += 5; tips.push('Push toward a 4.9+ average — it\'s the threshold where buyers stop comparison-shopping as hard.'); }
+  else if(rating >= 4.5){ score += 3; tips.push('Your rating is below the range top sellers sit in. Consider a polite post-delivery follow-up asking for honest feedback before a review.'); }
+  else if(rating > 0){ tips.push('A sub-4.5 rating is actively costing you clicks and conversions — prioritize fixing whatever is driving low scores.'); }
+
+  if(count >= 100){ score += 8; }
+  else if(count >= 30){ score += 5; tips.push('More reviews compound — keep asking satisfied buyers to leave one.'); }
+  else if(count >= 10){ score += 3; tips.push('Low review count is a trust gap versus competitors. Consider a limited-time discount to accelerate volume early on.'); }
+  else { tips.push('Very few reviews. Focus near-term energy on getting your first 10-20 completed orders reviewed.'); }
+
+  return { label: 'Reviews & Rating', score: clamp(score, 0, 15), max: 15, tips };
+}
+
+function scoreGallery(images, hasVideo){
+  const tips = [];
+  let score = 0;
+  if(images >= 5){ score += 6; }
+  else if(images >= 3){ score += 4; tips.push('Add more gallery images — 5+ gives buyers enough proof of range and quality.'); }
+  else if(images >= 1){ score += 2; tips.push('A single sample image is thin. Buyers browse visually — show more work.'); }
+  else { tips.push('No gallery images detected. This is one of the highest-leverage fixes available — add samples immediately.'); }
+
+  if(hasVideo){ score += 4; }
+  else { tips.push('Gigs with an intro or process video consistently convert better — consider adding one.'); }
+
+  return { label: 'Portfolio & Gallery', score: clamp(score, 0, 10), max: 10, tips };
+}
+
+function scoreResponsiveness(responseHours, revisions, deliveryDays){
+  const tips = [];
+  let score = 0;
+  if(responseHours <= 1){ score += 4; }
+  else if(responseHours <= 6){ score += 3; tips.push('Faster response time improves your Fiverr ranking and buyer confidence — aim under 1 hour when possible.'); }
+  else if(responseHours <= 24){ score += 1; tips.push('Response time over 6 hours can lose impatient buyers to a competitor.'); }
+  else { tips.push('Slow response time is likely hurting both conversions and Fiverr\'s internal ranking signals.'); }
+
+  if(revisions >= 3){ score += 3; }
+  else if(revisions === 2){ score += 2; tips.push('Consider offering 3+ revisions — it reduces buyer anxiety about being "locked in".'); }
+  else if(revisions === 1){ score += 1; tips.push('Only 1 revision is thin for most categories — buyers often expect more room to iterate.'); }
+  else { tips.push('No revisions offered is a red flag for most buyers unless your category norm is fixed-scope.'); }
+
+  if(deliveryDays > 0 && deliveryDays <= 3){ score += 3; }
+  else if(deliveryDays <= 7){ score += 1; tips.push('Faster delivery windows (1–3 days) are a strong differentiator if your workload allows it.'); }
+  else if(deliveryDays > 7){ tips.push('Long delivery windows can push buyers toward faster competitors — consider a paid "express delivery" extra instead of slowing the base offer.'); }
+
+  return { label: 'Response & Delivery', score: clamp(score, 0, 10), max: 10, tips };
+}
+
+function scoreExtras(extrasCount){
+  const tips = [];
+  let score = 0;
+  if(extrasCount >= 3){ score += 10; }
+  else if(extrasCount === 2){ score += 7; tips.push('Add one more paid extra (rush delivery, extra revisions, source files) to lift average order value.'); }
+  else if(extrasCount === 1){ score += 4; tips.push('A single extra under-monetizes demand — most top gigs offer 3+.'); }
+  else { tips.push('No paid extras detected. Extras are pure margin — add at least a rush-delivery or extra-revision option.'); }
+
+  return { label: 'Extras & Upsells', score: clamp(score, 0, 10), max: 10, tips };
+}
+
+function scoreSEO(tags, title, description){
+  const tips = [];
+  let score = 0;
+  const tagList = tags.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+  if(tagList.length >= 5){ score += 5; }
+  else if(tagList.length >= 3){ score += 3; tips.push('Use all 5 available tag slots — each one is a discoverable search entry point.'); }
+  else if(tagList.length >= 1){ score += 1; tips.push('Very few tags used — you\'re leaving search visibility on the table.'); }
+  else { tips.push('No tags detected. Tags are free search real estate — fill all 5 slots with relevant terms.'); }
+
+  const haystack = (title + ' ' + description).toLowerCase();
+  const matches = tagList.filter(t => t && haystack.includes(t)).length;
+  if(tagList.length > 0 && matches >= Math.min(2, tagList.length)){ score += 5; }
+  else if(tagList.length > 0){ tips.push('Your tags don\'t consistently appear in the title/description — align them so the same keywords repeat across the gig.'); }
+
+  return { label: 'SEO Keyword Alignment', score: clamp(score, 0, 10), max: 10, tips };
+}
+
+function renderResults(dims){
+  const total = dims.reduce((sum, d) => sum + d.score, 0);
+  const maxTotal = dims.reduce((sum, d) => sum + d.max, 0);
+  document.getElementById('scoreNum').textContent = total;
+
+  const verdictEl = document.getElementById('verdict');
+  let verdict, cls;
+  if(total >= 80){ verdict = 'Strong — minor optimizations only'; cls = 'v-good'; }
+  else if(total >= 55){ verdict = 'Decent — clear room to grow'; cls = 'v-mid'; }
+  else { verdict = 'Needs work — high-leverage fixes available'; cls = 'v-bad'; }
+  verdictEl.textContent = verdict;
+  verdictEl.className = 'verdict ' + cls;
+
+  const container = document.getElementById('dimensions');
+  container.innerHTML = '';
+  dims.forEach(d => {
+    const pct = Math.round((d.score / d.max) * 100);
+    const div = document.createElement('div');
+    div.className = 'dim';
+    div.innerHTML = `
+      <div class="dim-head"><span>${d.label}</span><span>${d.score} / ${d.max}</span></div>
+      <div class="bar"><div style="width:${pct}%"></div></div>
+      ${d.tips.length ? `<ul class="tips">${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>` : '<ul class="tips"><li>No issues found in this category.</li></ul>'}
+    `;
+    container.appendChild(div);
+  });
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.getElementById('auditForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('title').value || '';
+  const category = document.getElementById('category').value || '';
+  const tags = document.getElementById('tags').value || '';
+  const description = document.getElementById('description').value || '';
+  const basicPrice = parseFloat(document.getElementById('basicPrice').value) || 0;
+  const standardPrice = parseFloat(document.getElementById('standardPrice').value) || 0;
+  const premiumPrice = parseFloat(document.getElementById('premiumPrice').value) || 0;
+  const deliveryDays = parseFloat(document.getElementById('deliveryDays').value) || 0;
+  const revisions = parseFloat(document.getElementById('revisions').value) || 0;
+  const rating = parseFloat(document.getElementById('rating').value) || 0;
+  const reviewCount = parseFloat(document.getElementById('reviewCount').value) || 0;
+  const galleryImages = parseFloat(document.getElementById('galleryImages').value) || 0;
+  const hasVideo = document.getElementById('hasVideo').checked;
+  const responseTime = parseFloat(document.getElementById('responseTime').value) || 999;
+  const extrasCount = parseFloat(document.getElementById('extrasCount').value) || 0;
+
+  const dims = [
+    scoreTitle(title, category),
+    scorePricing(basicPrice, standardPrice, premiumPrice),
+    scoreDescription(description),
+    scoreReviews(rating, reviewCount),
+    scoreGallery(galleryImages, hasVideo),
+    scoreResponsiveness(responseTime, revisions, deliveryDays),
+    scoreExtras(extrasCount),
+    scoreSEO(tags, title, description)
+  ];
+
+  renderResults(dims);
+});
+</script>
+</body>
+</html>
