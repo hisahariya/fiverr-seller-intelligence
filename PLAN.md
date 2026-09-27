@@ -19,7 +19,8 @@ A standalone venture (separate from the design agency and Studio Command CRM) th
 
 ## Phase 3 — Content & Acquisition
 - [x] First SEO article: gig title mistakes (targets long-tail "fiverr gig title" search intent)
-- [ ] 2-3 more articles targeting seller pain points (pricing, description writing, review velocity)
+- [x] Second SEO article: pricing strategy (targets "how to price fiverr gig" search intent)
+- [ ] 1-2 more articles targeting seller pain points (description writing, review velocity)
 - [ ] Distribute in Fiverr seller Facebook groups, r/Fiverr, r/FiverrSellers, Fiverr Forum
 - [ ] Consider a short-form video walkthrough of the tool for TikTok/YouTube Shorts
 
