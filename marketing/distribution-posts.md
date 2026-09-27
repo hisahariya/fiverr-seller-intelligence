@@ -95,3 +95,6 @@ based on what real sellers say is (or isn't) accurate.
 - None oversell ("game-changing", "must-have") — seller communities are skeptical of hype
   and respond better to a plain, useful framing.
 - Swap `[link]` for the live tool URL: https://sarucreatin.github.io/fiverr-seller-intelligence/tool.html
+- Stronger hook for new sellers: the Gig Builder generates a complete gig from a category and niche —
+  https://sarucreatin.github.io/fiverr-seller-intelligence/builder.html (e.g. link `builder.html?cat=logo-design`
+  when posting in a category-specific group).

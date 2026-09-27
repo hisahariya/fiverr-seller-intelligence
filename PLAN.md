@@ -1,41 +1,47 @@
 # Fiverr Seller Intelligence — Execution Plan
 
-A standalone venture (separate from the design agency and Studio Command CRM) that helps Fiverr sellers diagnose and improve their gigs using data-driven scoring instead of guesswork.
+A standalone venture (separate from the design agency and Studio Command CRM) that helps Fiverr
+sellers build and improve their gigs with structured category intelligence and, over time,
+real benchmarks contributed by sellers.
 
-## Phase 1 — MVP Product (Build)
-- [x] "Gig Health Check" free tool: paste gig details, get an instant score + recommendations
-- [x] Rules-based scoring engine, no backend, runs entirely in the browser
-- [x] Deployed to GitHub Pages: https://sarucreatin.github.io/fiverr-seller-intelligence/
-- [x] Analytics wired in (GoatCounter, privacy-friendly, no cookie banner needed) — script embedded
-      on all 3 pages under site code `gighealthcheck`. **Action needed**: claim that site code free
-      at goatcounter.com to activate the dashboard (script fails silently until claimed).
+Live: https://sarucreatin.github.io/fiverr-seller-intelligence/
 
-## Phase 2 — Marketing Site
-- [x] Landing page with positioning ("Growth Intelligence for Fiverr Sellers"), value prop, pricing tiers
-- [x] Email capture wired via FormSubmit.co, posting directly to infosahariyaislam@gmail.com —
-      no third-party account needed. **Action needed**: first submission triggers a one-time
-      confirmation email to that address; click it to activate future submissions.
-- [ ] Testimonials / social proof once first users convert
+## The offer (v2)
+- **Free toolkit**: Gig Builder + Gig Health Check + Category Intelligence (40 categories)
+- **Gig Makeover — $49/gig (done for you)**: rewritten title/description/tags, repriced packages,
+  3 designed gallery images, before/after score. Delivered by the design agency. Requests arrive
+  by email through the makeover form on the homepage.
+- **Growth Intelligence — $19/mo (waitlist)**: benchmarks from real seller data plus monthly re-scoring.
+  Launch only once enough anonymous contributions exist.
 
-## Phase 3 — Content & Acquisition
-- [x] First SEO article: gig title mistakes (targets long-tail "fiverr gig title" search intent)
-- [x] Second SEO article: pricing strategy (targets "how to price fiverr gig" search intent)
-- [ ] 1-2 more articles targeting seller pain points (description writing, review velocity)
-- [x] Distribution copy drafted for r/Fiverr, r/FiverrSellers, Fiverr Forum, Facebook groups
-      (see `marketing/distribution-posts.md`) — **Action needed**: actually post it (requires
-      your own accounts) and check each community's current self-promo rules first
-- [ ] Consider a short-form video walkthrough of the tool for TikTok/YouTube Shorts
+## Data strategy
+- **No scraping of Fiverr.** It violates Fiverr's Terms of Service and would put the business at risk.
+- **Category dataset** (`data/categories-*.js`): 40 subcategories across 8 groups, each with keywords,
+  tags, title templates, package structures, extras, FAQs, gallery ideas and tactics. Prices are
+  labeled as suggested starting points everywhere, not market data.
+- **Real benchmarks**: Health Check has an opt-in (off by default) "share anonymously" checkbox that
+  sends only the category and numbers (prices, delivery, revisions, rating, reviews, gallery, response,
+  extras, tag count, score) to FormSubmit → infosahariyaislam@gmail.com. Never titles, descriptions or tags.
+- [ ] When contributions pass ~100/month, move them from email into a real store (Google Sheet via
+      Apps Script, or Supabase) and compute per-category medians to replace the suggested prices.
 
-## Phase 4 — Monetization
-- [ ] Free tool → email capture → paid "Full Gig Audit" report (one-time)
-- [ ] Recurring "Growth Intelligence" tier: monthly re-scoring + competitor comparison
-- [ ] Validate willingness to pay before building subscription billing infrastructure
+## Status
+- [x] Gig Builder (`builder.html`) — generates titles, 5 tags, description, 3 packages, extras, FAQ, gallery ideas
+- [x] Gig Health Check (`tool.html`) — category-aware scoring, prefill from Builder, opt-in data sharing
+- [x] Category Intelligence (`categories.html`) — searchable and filterable, deep-links into Builder
+- [x] Homepage rebuilt around the 3-tool workflow and new offer
+- [x] Analytics (GoatCounter, site code `gighealthcheck`) on all pages.
+      **Action needed**: claim the site code free at goatcounter.com.
+- [x] Forms via FormSubmit (waitlist, makeover requests, benchmark sharing).
+      **Action needed**: click the one-time FormSubmit activation email on the first submission.
+- [x] 2 SEO articles, cross-linked
+- [x] Distribution copy (`marketing/distribution-posts.md`) — **Action needed**: post it (update links
+      to point at the Gig Builder, which is now the stronger hook)
+- [ ] 1-2 more articles (description writing, review velocity)
+- [ ] Testimonials once the first makeovers are delivered
+- [ ] Short-form video walkthrough of the Gig Builder for TikTok/YouTube Shorts
 
-## Product Notes
-- Scoring engine covers 8 dimensions: Title Quality, Pricing Strategy, Description Quality,
-  Reviews & Rating, Portfolio/Gallery, Response & Delivery, Extras/Upsells, SEO Keyword Alignment.
-- Everything is static (HTML/CSS/JS) — no server, no database, no local runtime dependency.
-- Files:
-  - `index.html` — marketing landing page
-  - `tool.html` — Gig Health Check scoring tool
-  - `blog/gig-title-mistakes.html` — first content asset
+## Architecture
+- Static HTML/CSS/JS only — no server, no build step. Served by GitHub Pages.
+- `assets/site.css` shared styles · `assets/builder.js` gig generator · `assets/scoring.js` 8-dimension engine
+- `data/categories-1..4.js` the category dataset (loaded as scripts so it also works from `file://`)

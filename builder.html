@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gig Builder — Free Fiverr Gig Generator</title>
+<meta name="description" content="Pick your Fiverr category and niche, and get ready-to-paste titles, tags, description, packages, extras and FAQs in seconds. Free, no signup.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">Gig<span>Health</span>Check</a>
+    <nav class="site-nav">
+      <a href="builder.html" class="active">Gig Builder</a>
+      <a href="tool.html">Health Check</a>
+      <a href="categories.html">Categories</a>
+      <a href="index.html#guides">Guides</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="wrap">
+    <h1>Gig Builder</h1>
+    <p class="sub">Pick your category and niche. You'll get titles, tags, a full description, 3 packages, extras and FAQs, ready to paste into Fiverr. Everything runs in your browser.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <form id="builderForm">
+          <label for="cat" style="margin-top:0">Category</label>
+          <select id="cat" required></select>
+
+          <label for="niche">Your niche or style <span class="muted">(optional)</span></label>
+          <input id="niche" maxlength="30" placeholder="e.g. vintage, local, Shopify, luxury">
+
+          <label for="aud">Who you serve <span class="muted">(optional)</span></label>
+          <input id="aud" maxlength="30" placeholder="e.g. startups, coaches, restaurants">
+
+          <label for="level">Your seller level</label>
+          <select id="level">
+            <option value="new">New seller (under 10 reviews)</option>
+            <option value="growing" selected>Growing (10–100 reviews)</option>
+            <option value="established">Established (100+ reviews)</option>
+          </select>
+
+          <button type="submit" class="btn" style="width:100%;margin-top:18px">Build my gig</button>
+        </form>
+        <p class="note">Prices are suggested starting points, not live market data. Always compare with the top 5 gigs in your category before publishing.</p>
+      </div>
+
+      <div class="card" id="output">
+        <div class="empty">Choose a category and click <b>Build my gig</b> to see your draft here.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">Independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.</div>
+</footer>
+
+<script src="data/categories-1.js"></script>
+<script src="data/categories-2.js"></script>
+<script src="data/categories-3.js"></script>
+<script src="data/categories-4.js"></script>
+<script src="assets/builder.js"></script>
+<script>
+const CATS = window.CATEGORIES;
+const byId = Object.fromEntries(CATS.map(c => [c.id, c]));
+const $ = id => document.getElementById(id);
+let current = null;
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+}
+
+function populateCategories() {
+  const groups = {};
+  CATS.forEach(c => (groups[c.group] = groups[c.group] || []).push(c));
+  $('cat').innerHTML = '<option value="">Select a category…</option>' + Object.entries(groups).map(([g, list]) =>
+    `<optgroup label="${esc(g)}">${list.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</optgroup>`
+  ).join('');
+}
+
+function copy(text, btn) {
+  const done = () => { const old = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => (btn.textContent = old), 1200); };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) {}
+  ta.remove();
+}
+
+function allText(g) {
+  return [
+    'TITLE\n' + g.titles[0].text,
+    'TAGS\n' + g.tags.join(', '),
+    'DESCRIPTION\n' + g.description,
+    'PACKAGES\n' + g.packages.map(p => `${p.name}: $${p.price}, ${p.days} day(s) — ${p.deliverables}`).join('\n'),
+    'EXTRAS\n' + g.extras.map(e => `${e.name}: +$${e.price}`).join('\n'),
+    'FAQ\n' + g.faq.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n')
+  ].join('\n\n');
+}
+
+function render(g) {
+  current = g;
+  const lenClass = t => t.ok ? 'len ok' : 'len warn';
+  $('output').innerHTML = `
+    <div class="out-block">
+      <div class="out-head"><h3>Titles</h3><span class="muted small">Best option first</span></div>
+      ${g.titles.map((t, i) => `
+        <div class="title-row">
+          <span>${esc(t.text)}</span>
+          <span style="display:flex;gap:8px;align-items:center">
+            <span class="${lenClass(t)}">${t.len} chars</span>
+            <button class="btn btn-ghost btn-sm" data-copy="title-${i}">Copy</button>
+          </span>
+        </div>`).join('')}
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>Tags (use all 5)</h3><button class="btn btn-ghost btn-sm" data-copy="tags">Copy</button></div>
+      <div class="chips">${g.tags.map(t => `<span class="chip on">${esc(t)}</span>`).join('')}</div>
+      ${g.altTags.length ? `<p class="muted small" style="margin:10px 0 4px">Alternatives to test:</p><div class="chips">${g.altTags.slice(0, 6).map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>` : ''}
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>Description</h3><button class="btn btn-ghost btn-sm" data-copy="description">Copy</button></div>
+      <pre class="pre">${esc(g.description)}</pre>
+      <p class="muted small">Replace the part in [brackets] with your own details before publishing.</p>
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>Packages</h3></div>
+      <div class="table-wrap"><table>
+        <tr><th>Package</th><th>Price</th><th>Delivery</th><th>What's included</th></tr>
+        ${g.packages.map(p => `<tr><td>${p.name}</td><td class="num">$${p.price}</td><td class="num">${p.days} day${p.days > 1 ? 's' : ''}</td><td>${esc(p.deliverables)}</td></tr>`).join('')}
+      </table></div>
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>Paid extras</h3></div>
+      <ul class="list">${g.extras.map(e => `<li>${esc(e.name)} — <b>+$${e.price}</b></li>`).join('')}</ul>
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>FAQ</h3><button class="btn btn-ghost btn-sm" data-copy="faq">Copy</button></div>
+      ${g.faq.map(f => `<p style="margin:0 0 4px;font-weight:600;font-size:14px">${esc(f.q)}</p><p class="muted" style="margin:0 0 12px;font-size:14px">${esc(f.a)}</p>`).join('')}
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>Gallery ideas</h3></div>
+      <ul class="list">${g.gallery.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    </div>
+
+    <div class="out-block">
+      <div class="out-head"><h3>What wins in ${esc(g.category.name)}</h3></div>
+      <ul class="list">${g.tips.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    </div>
+
+    <div class="out-block" style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" data-copy="all">Copy entire gig</button>
+      <button class="btn btn-ghost" id="toHealth">Score this draft in Health Check →</button>
+    </div>
+  `;
+}
+
+function build() {
+  const cat = byId[$('cat').value];
+  if (!cat) return;
+  render(GigBuilder.buildGig(cat, { niche: $('niche').value, aud: $('aud').value, level: $('level').value }));
+  const url = new URL(location.href);
+  url.searchParams.set('cat', cat.id);
+  history.replaceState(null, '', url);
+}
+
+$('builderForm').addEventListener('submit', e => { e.preventDefault(); build(); if (window.innerWidth < 860) $('output').scrollIntoView({ behavior: 'smooth' }); });
+['cat', 'niche', 'aud', 'level'].forEach(id => $(id).addEventListener(id === 'cat' || id === 'level' ? 'change' : 'input', () => { if (current) build(); }));
+
+$('output').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn || !current) return;
+  const key = btn.dataset.copy;
+  if (key) {
+    const g = current;
+    const text = key.startsWith('title-') ? g.titles[+key.split('-')[1]].text
+      : key === 'tags' ? g.tags.join(', ')
+      : key === 'description' ? g.description
+      : key === 'faq' ? g.faq.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n')
+      : allText(g);
+    copy(text, btn);
+  }
+  if (btn.id === 'toHealth') {
+    const g = current;
+    const draft = {
+      title: g.titles[0].text, category: g.category.id, tags: g.tags.join(', '), description: g.description,
+      basicPrice: g.packages[0].price, standardPrice: g.packages[1].price, premiumPrice: g.packages[2].price,
+      deliveryDays: g.packages[0].days, extrasCount: g.extras.length
+    };
+    try { localStorage.setItem('ghc-draft', JSON.stringify(draft)); } catch (err) {}
+    location.href = 'tool.html?from=builder';
+  }
+});
+
+populateCategories();
+const preset = new URLSearchParams(location.search).get('cat');
+if (preset && byId[preset]) { $('cat').value = preset; build(); }
+</script>
+<script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

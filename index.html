@@ -3,151 +3,228 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gig Health Check — Growth Intelligence for Fiverr Sellers</title>
-<meta name="description" content="Free instant gig audits plus deeper growth intelligence for Fiverr sellers who want to rank higher, price smarter, and win more orders.">
+<title>Fiverr Seller Toolkit — Build, Audit & Grow Your Gigs</title>
+<meta name="description" content="Free Fiverr seller toolkit: generate a complete gig in seconds, audit it across 8 growth dimensions, and research 40 categories. Or get a done-for-you Gig Makeover.">
+<link rel="stylesheet" href="assets/site.css">
 <style>
-  :root{
-    --bg:#0b0d12; --panel:#12151c; --panel-2:#181c25; --border:#242a36;
-    --text:#e7eaf1; --muted:#9aa3b2; --accent:#33d17a; --accent-2:#1ee8a7; --radius:14px;
-  }
-  @media (prefers-color-scheme: light){
-    :root{ --bg:#f6f7fb; --panel:#ffffff; --panel-2:#f0f2f7; --border:#e2e5ec; --text:#1a1d24; --muted:#5b6270; }
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
-  a{color:inherit}
-  header{padding:20px;border-bottom:1px solid var(--border)}
-  .wrap{max-width:1100px;margin:0 auto}
-  nav{display:flex;justify-content:space-between;align-items:center}
-  .brand{font-weight:700;font-size:18px;text-decoration:none;color:var(--text)}
-  .brand span{color:var(--accent-2)}
-  nav a.tool-link{background:var(--accent);color:#06120b;padding:9px 16px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none}
-  .hero{padding:80px 20px 60px;text-align:center}
+  .hero{padding:72px 0 48px;text-align:center}
   .hero h1{font-size:42px;margin:0 0 16px;line-height:1.15}
-  .hero p{color:var(--muted);font-size:18px;max-width:620px;margin:0 auto 32px}
-  .btn-primary{display:inline-block;background:var(--accent);color:#06120b;padding:16px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
-  .btn-primary:hover{background:var(--accent-2)}
-  .muted-note{color:var(--muted);font-size:13px;margin-top:14px}
-  section{padding:60px 20px}
+  .hero p{color:var(--muted);font-size:18px;max-width:640px;margin:0 auto 28px}
+  .hero-ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:36px}
+  .stats div{text-align:center}
+  .stats b{display:block;font-size:26px}
+  .stats span{color:var(--muted);font-size:13px}
+  section{padding:56px 0}
   h2{font-size:26px;text-align:center;margin:0 0 8px}
-  .section-sub{color:var(--muted);text-align:center;max-width:560px;margin:0 auto 36px}
-  .dims{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:0 auto}
-  @media (max-width:860px){.dims{grid-template-columns:repeat(2,1fr)}}
-  .dim-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px;font-size:14px}
-  .dim-card b{display:block;margin-bottom:6px;font-size:15px}
-  .dim-card span{color:var(--muted)}
-  .pricing{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  @media (max-width:860px){.pricing{grid-template-columns:1fr}}
-  .plan{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column}
-  .plan.featured{border-color:var(--accent);position:relative}
-  .plan.featured::before{content:'Most Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#06120b;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px}
+  .section-sub{color:var(--muted);text-align:center;max-width:580px;margin:0 auto 32px}
+  .tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  @media (max-width:860px){.tools{grid-template-columns:minmax(0,1fr)}}
+  .tool-card{display:flex;flex-direction:column}
+  .tool-card .step{font-size:12px;color:var(--accent-2);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .tool-card h3{margin:6px 0 8px;font-size:19px}
+  .tool-card p{color:var(--muted);font-size:14px;margin:0 0 16px;flex:1}
+  .data-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:center}
+  @media (max-width:860px){.data-band{grid-template-columns:minmax(0,1fr)}}
+  .data-band h2{text-align:left}
+  .data-band ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px}
+  .data-band li{margin-bottom:8px}
+  .pricing{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:1000px;margin:0 auto}
+  @media (max-width:860px){.pricing{grid-template-columns:minmax(0,1fr)}}
+  .plan{display:flex;flex-direction:column;position:relative}
+  .plan.featured{border-color:var(--accent)}
+  .plan .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;padding:3px 12px;border-radius:999px;white-space:nowrap}
   .plan h3{margin:0 0 4px;font-size:18px}
-  .price{font-size:32px;font-weight:800;margin:12px 0}
+  .price{font-size:32px;font-weight:800;margin:10px 0}
   .price small{font-size:14px;color:var(--muted);font-weight:400}
-  .plan ul{list-style:none;padding:0;margin:0 0 24px;flex:1}
+  .plan ul{list-style:none;padding:0;margin:0 0 20px;flex:1}
   .plan li{padding:8px 0;border-top:1px solid var(--border);color:var(--muted);font-size:14px}
   .plan li:first-child{border-top:0}
-  .plan a{display:block;text-align:center;padding:12px;border-radius:8px;font-weight:700;text-decoration:none;background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
-  .plan.featured a{background:var(--accent);color:#06120b;border-color:var(--accent)}
-  .capture{max-width:520px;margin:0 auto;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center}
-  .capture form{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
-  .capture input[type=email]{flex:1;min-width:200px;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);color:var(--text)}
-  .capture button{padding:12px 20px;border-radius:8px;border:0;background:var(--accent);color:#06120b;font-weight:700;cursor:pointer}
-  footer{padding:32px 20px;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--border)}
-  footer a{color:var(--muted)}
+  .plan .btn{text-align:center}
+  .form-card{max-width:560px;margin:0 auto}
+  .form-card h2{text-align:left;font-size:20px}
+  .inline-form{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .inline-form input{flex:1;min-width:200px}
+  .guides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:900px;margin:0 auto}
+  @media (max-width:760px){.guides{grid-template-columns:minmax(0,1fr)}}
+  .guide{text-decoration:none;color:var(--text)}
+  .guide:hover{border-color:var(--accent)}
+  .guide h3{margin:0 0 6px;font-size:17px}
+  .guide p{margin:0;color:var(--muted);font-size:14px}
+  @media (max-width:600px){.hero h1{font-size:32px}.hero h1 br{display:none}.hero p{font-size:16px}}
 </style>
 </head>
 <body>
-<header>
+<header class="site-header">
   <div class="wrap">
-    <nav>
-      <a href="index.html" class="brand">Gig<span>Health</span>Check</a>
-      <a href="tool.html" class="tool-link">Run Free Audit</a>
+    <a href="index.html" class="brand">Gig<span>Health</span>Check</a>
+    <nav class="site-nav">
+      <a href="builder.html">Gig Builder</a>
+      <a href="tool.html">Health Check</a>
+      <a href="categories.html">Categories</a>
+      <a href="#guides">Guides</a>
     </nav>
   </div>
 </header>
 
 <div class="hero">
-  <h1>Stop guessing why your<br>Fiverr gig isn't ranking.</h1>
-  <p>Paste your gig details into our free Gig Health Check and get an instant score across 8 growth dimensions — with the exact fixes that move the needle first.</p>
-  <a class="btn-primary" href="tool.html">Run Your Free Gig Health Check →</a>
-  <p class="muted-note">No signup required. Runs in your browser. Takes under 2 minutes.</p>
+  <div class="wrap">
+    <h1>Build a Fiverr gig that sells,<br>not one that sits.</h1>
+    <p>Generate a complete gig in seconds, score it across 8 growth factors, and research what wins in 40 categories. It's free and runs in your browser.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="builder.html">Build my gig free →</a>
+      <a class="btn btn-ghost" href="tool.html">Audit an existing gig</a>
+    </div>
+    <div class="stats">
+      <div><b>40</b><span>categories covered</span></div>
+      <div><b>8</b><span>growth factors scored</span></div>
+      <div><b>0</b><span>signups required</span></div>
+    </div>
+  </div>
 </div>
 
 <section>
-  <h2>What gets scored</h2>
-  <p class="section-sub">The same rules-based framework top-ranking Fiverr sellers already follow, applied to your gig automatically.</p>
-  <div class="dims">
-    <div class="dim-card"><b>Title Quality</b><span>Length, format, keyword placement, spam signals.</span></div>
-    <div class="dim-card"><b>Pricing Strategy</b><span>Tier structure and upsell spread across Basic/Standard/Premium.</span></div>
-    <div class="dim-card"><b>Description Quality</b><span>Length, structure, call to action, logistics clarity.</span></div>
-    <div class="dim-card"><b>Reviews & Rating</b><span>Rating threshold and review volume vs. category norms.</span></div>
-    <div class="dim-card"><b>Portfolio & Gallery</b><span>Image count and video presence.</span></div>
-    <div class="dim-card"><b>Response & Delivery</b><span>Response time, revisions, delivery speed.</span></div>
-    <div class="dim-card"><b>Extras & Upsells</b><span>Paid add-ons and average order value potential.</span></div>
-    <div class="dim-card"><b>SEO Keyword Alignment</b><span>Tag usage and keyword consistency across the gig.</span></div>
+  <div class="wrap">
+    <h2>Three tools, one workflow</h2>
+    <p class="section-sub">Start from scratch or fix what you have. Each tool feeds into the next.</p>
+    <div class="tools">
+      <div class="card tool-card">
+        <span class="step">Step 1 · Research</span>
+        <h3>Category Intelligence</h3>
+        <p>Keywords, tags, package structures, proven extras and winning tactics for 40 Fiverr categories.</p>
+        <a class="btn btn-ghost" href="categories.html">Explore categories</a>
+      </div>
+      <div class="card tool-card">
+        <span class="step">Step 2 · Create</span>
+        <h3>Gig Builder</h3>
+        <p>Pick a category and niche. Get titles, tags, a full description, 3 priced packages, extras and FAQs, ready to paste.</p>
+        <a class="btn" href="builder.html">Build a gig</a>
+      </div>
+      <div class="card tool-card">
+        <span class="step">Step 3 · Improve</span>
+        <h3>Gig Health Check</h3>
+        <p>Score any gig across title, pricing, description, reviews, gallery, response, extras and SEO, with specific fixes.</p>
+        <a class="btn btn-ghost" href="tool.html">Run a health check</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="card data-band">
+      <div>
+        <h2>Real benchmarks, built by sellers</h2>
+        <p class="muted" style="margin:0">Most "Fiverr data" online is guesswork. We're building category benchmarks from real gigs instead, and sellers can opt in to share their numbers anonymously when they run a Health Check.</p>
+      </div>
+      <ul>
+        <li>Only the category and numbers are shared (prices, delivery, reviews, rating). Never titles, descriptions or tags.</li>
+        <li>Sharing is off by default. You choose to turn it on every time.</li>
+        <li>As contributions grow, benchmarks like "typical Premium price in Logo Design" come from real data, not estimates.</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 <section id="pricing">
-  <h2>Growth Intelligence Plans</h2>
-  <p class="section-sub">Start free. Upgrade when you want a deeper audit or ongoing tracking.</p>
-  <div class="pricing">
-    <div class="plan">
-      <h3>Free</h3>
-      <div class="price">$0</div>
-      <ul>
-        <li>Instant Gig Health Check score</li>
-        <li>All 8 scoring dimensions</li>
-        <li>Actionable fix suggestions</li>
-      </ul>
-      <a href="tool.html">Run Free Audit</a>
+  <div class="wrap">
+    <h2>Do it yourself, or have it done for you</h2>
+    <p class="section-sub">The toolkit is free forever. If you'd rather hand it off, we'll rebuild your gig for you.</p>
+    <div class="pricing">
+      <div class="card plan">
+        <h3>Toolkit</h3>
+        <div class="price">$0</div>
+        <ul>
+          <li>Gig Builder for 40 categories</li>
+          <li>Unlimited Health Checks</li>
+          <li>Full Category Intelligence</li>
+          <li>Seller guides</li>
+        </ul>
+        <a class="btn btn-ghost" href="builder.html">Start free</a>
+      </div>
+      <div class="card plan featured">
+        <span class="badge">Done for you</span>
+        <h3>Gig Makeover</h3>
+        <div class="price">$49 <small>per gig</small></div>
+        <ul>
+          <li>Rewritten title, description and tags</li>
+          <li>Repriced 3-tier packages and extras</li>
+          <li>3 professionally designed gallery images</li>
+          <li>Before and after Health Check score</li>
+        </ul>
+        <a class="btn" href="#makeover">Request a makeover</a>
+      </div>
+      <div class="card plan">
+        <h3>Growth Intelligence</h3>
+        <div class="price">$19 <small>/mo</small></div>
+        <ul>
+          <li>Benchmarks from real seller data</li>
+          <li>Monthly re-score of your gigs</li>
+          <li>Category trend alerts</li>
+          <li>Launching once benchmarks are ready</li>
+        </ul>
+        <a class="btn btn-ghost" href="#capture">Join waitlist</a>
+      </div>
     </div>
-    <div class="plan featured">
-      <h3>Full Gig Audit</h3>
-      <div class="price">$29 <small>one-time</small></div>
-      <ul>
-        <li>Everything in Free</li>
-        <li>Competitor gig comparison (top 5 in your category)</li>
-        <li>Rewritten title & description drafts</li>
-        <li>Priced-to-convert package recommendations</li>
-      </ul>
-      <a href="#capture">Join Waitlist</a>
+  </div>
+</section>
+
+<section id="makeover">
+  <div class="wrap">
+    <div class="card form-card">
+      <h2>Request a Gig Makeover</h2>
+      <p class="muted small" style="margin:6px 0 0">Send your gig link and we'll reply within 24 hours with next steps. No payment is taken on this form.</p>
+      <form action="https://formsubmit.co/infosahariyaislam@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New Gig Makeover request">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <label for="mk-email">Your email</label>
+        <input id="mk-email" type="email" name="email" placeholder="you@example.com" required>
+        <label for="mk-gig">Your Fiverr gig link</label>
+        <input id="mk-gig" type="url" name="gig_url" placeholder="https://www.fiverr.com/yourname/your-gig" required>
+        <label for="mk-notes">Anything we should know? <span class="muted">(optional)</span></label>
+        <textarea id="mk-notes" name="notes" style="min-height:80px" placeholder="Goals, target buyers, what's not working..."></textarea>
+        <button type="submit" class="btn" style="width:100%;margin-top:14px">Send request</button>
+      </form>
     </div>
-    <div class="plan">
-      <h3>Growth Intelligence</h3>
-      <div class="price">$19 <small>/mo</small></div>
-      <ul>
-        <li>Everything in Full Gig Audit</li>
-        <li>Monthly re-scoring as your gig evolves</li>
-        <li>Category trend alerts</li>
-        <li>Priority email support</li>
-      </ul>
-      <a href="#capture">Join Waitlist</a>
+  </div>
+</section>
+
+<section id="guides">
+  <div class="wrap">
+    <h2>Seller guides</h2>
+    <p class="section-sub">Short, practical reads on the factors that move Fiverr rankings.</p>
+    <div class="guides">
+      <a class="card guide" href="blog/gig-title-mistakes.html">
+        <h3>7 Gig Title Mistakes That Kill Your Click-Through Rate</h3>
+        <p>The fastest, highest-leverage fix on most gigs.</p>
+      </a>
+      <a class="card guide" href="blog/pricing-without-race-to-bottom.html">
+        <h3>How to Price a Fiverr Gig Without Racing to the Bottom</h3>
+        <p>Three-tier psychology, gap ratios and when to raise prices.</p>
+      </a>
     </div>
   </div>
 </section>
 
 <section id="capture">
-  <div class="capture">
-    <h2 style="text-align:left;font-size:20px">Get early access to paid audits</h2>
-    <p style="color:var(--muted);font-size:14px;margin:8px 0 0">Leave your email and we'll notify you when Full Gig Audit and Growth Intelligence go live.</p>
-    <form action="https://formsubmit.co/infosahariyaislam@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="New Gig Health Check waitlist signup">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input type="email" name="email" placeholder="you@example.com" required>
-      <button type="submit">Notify Me</button>
-    </form>
+  <div class="wrap">
+    <div class="card form-card" style="text-align:center">
+      <h2 style="text-align:center">Get Growth Intelligence first</h2>
+      <p class="muted small" style="margin:6px 0 0">Join the waitlist and we'll email you when real-data benchmarks launch.</p>
+      <form class="inline-form" action="https://formsubmit.co/infosahariyaislam@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New Gig Health Check waitlist signup">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit" class="btn">Notify me</button>
+      </form>
+    </div>
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    Gig Health Check — independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.
-    <br><a href="blog/gig-title-mistakes.html">Read: 7 Gig Title Mistakes That Kill Your Click-Through Rate</a>
-    · <a href="blog/pricing-without-race-to-bottom.html">Read: How to Price a Fiverr Gig Without Racing to the Bottom</a>
-  </div>
+<footer class="site-footer">
+  <div class="wrap">Independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.</div>
 </footer>
 <script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
