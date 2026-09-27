@@ -4,7 +4,8 @@ A standalone venture (separate from the design agency and Studio Command CRM) th
 sellers build and improve their gigs with structured category intelligence and, over time,
 real benchmarks contributed by sellers.
 
-Live: https://sarucreatin.github.io/fiverr-seller-intelligence/
+Live: https://sarucreatin.github.io/fiverr-seller-intelligence/ (GitHub Pages)
+Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from `main` with `npx wrangler deploy`, no build step). `.assetsignore` keeps PLAN.md and `marketing/` off the Cloudflare site.
 
 ## The offer (v2)
 - **Free toolkit**: Gig Builder + Gig Health Check + Category Intelligence (40 categories)

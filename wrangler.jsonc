@@ -1,0 +1,10 @@
+{
+  // Cloudflare deploy settings. The site is plain HTML, so there is no build step:
+  // the repo folder itself is served, minus anything listed in .assetsignore.
+  "name": "fiverr-seller-intelligence",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}
