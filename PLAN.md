@@ -5,12 +5,16 @@ A standalone venture (separate from the design agency and Studio Command CRM) th
 ## Phase 1 — MVP Product (Build)
 - [x] "Gig Health Check" free tool: paste gig details, get an instant score + recommendations
 - [x] Rules-based scoring engine, no backend, runs entirely in the browser
-- [ ] Deploy to a static host (GitHub Pages / Netlify / Vercel) with a real domain
-- [ ] Add analytics (privacy-friendly, e.g. Plausible) to see actual usage
+- [x] Deployed to GitHub Pages: https://sarucreatin.github.io/fiverr-seller-intelligence/
+- [x] Analytics wired in (GoatCounter, privacy-friendly, no cookie banner needed) — script embedded
+      on all 3 pages under site code `gighealthcheck`. **Action needed**: claim that site code free
+      at goatcounter.com to activate the dashboard (script fails silently until claimed).
 
 ## Phase 2 — Marketing Site
 - [x] Landing page with positioning ("Growth Intelligence for Fiverr Sellers"), value prop, pricing tiers
-- [ ] Email capture wired to a real list (ConvertKit/Mailchimp/Buttondown)
+- [x] Email capture wired via FormSubmit.co, posting directly to infosahariyaislam@gmail.com —
+      no third-party account needed. **Action needed**: first submission triggers a one-time
+      confirmation email to that address; click it to activate future submissions.
 - [ ] Testimonials / social proof once first users convert
 
 ## Phase 3 — Content & Acquisition
