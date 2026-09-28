@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>7 Fiverr Gig Title Mistakes That Kill Your Click-Through Rate</title>
 <meta name="description" content="Your gig title is the single highest-leverage piece of copy on Fiverr. Here are the 7 mistakes that quietly kill your click-through rate, and how to fix each one.">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="../assets/motion.js" defer></script>
 <style>
   :root{
     --bg:#0b0d12; --panel:#12151c; --panel-2:#181c25; --border:#242a36;
@@ -16,12 +19,7 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
   a{color:var(--accent-2)}
-  header{padding:20px;border-bottom:1px solid var(--border)}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px}
-  nav{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-  .brand{font-weight:700;font-size:18px;text-decoration:none;color:var(--text)}
-  .brand span{color:var(--accent-2)}
-  nav a.tool-link{background:var(--accent);color:#06120b;padding:9px 16px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none}
   article{padding:50px 0 80px}
   h1{font-size:34px;line-height:1.2;margin:0 0 10px}
   .meta{color:var(--muted);font-size:14px;margin-bottom:36px}
@@ -37,14 +35,50 @@
 </style>
 </head>
 <body>
-<header>
-  <nav>
-    <a href="../index.html" class="brand">Gig<span>Health</span>Check</a>
-    <a href="../tool.html" class="tool-link">Run Free Audit</a>
-  </nav>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="brand" aria-label="GigHealthCheck home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+      <span class="brand-word">Gig<span>Health</span>Check</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <span class="nav-glide" aria-hidden="true"></span>
+      <div class="nav-item has-menu">
+        <button type="button" class="nav-link" aria-expanded="false" aria-controls="menu-tools">Free tools <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="mega" id="menu-tools">
+          <a class="mega-item" href="../builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder <em>Start here</em></b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
+          <a class="mega-item" href="../tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig on 8 growth factors, with exact fixes</small></span></a>
+          <a class="mega-item" href="../categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 40 categories</small></span></a>
+          <div class="mega-foot"><span>Free · No signup · No Fiverr login</span><a href="../index.html#finder">Quick title check →</a></div>
+        </div>
+      </div>
+      <a class="nav-link is-current" aria-current="true" href="../index.html#guides">Guides</a>
+      <a class="nav-link" href="../index.html#pricing">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn header-cta" href="../builder.html">Build free <span aria-hidden="true">→</span></a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="scroll-progress" aria-hidden="true"><i></i></div>
 </header>
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mm-inner">
+    <p class="mm-label">Free tools</p>
+    <a class="mm-tool" href="../builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
+    <a class="mm-tool" href="../tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig on 8 growth factors, with exact fixes</small></span></a>
+    <a class="mm-tool" href="../categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 40 categories</small></span></a>
+    <p class="mm-label">More</p>
+    <a class="mm-link" href="../index.html#guides">Seller guides</a>
+    <a class="mm-link" href="../index.html#pricing">Pricing</a>
+    <a class="mm-link" href="../index.html#makeover">Gig Makeover</a>
+    <a class="btn mm-cta" href="../builder.html">Build my gig free →</a>
+    <p class="mm-note">Free · No signup · No Fiverr login</p>
+  </div>
+</div>
 
-<article class="wrap">
+<article class="wrap" id="main">
   <h1>7 Fiverr Gig Title Mistakes That Kill Your Click-Through Rate</h1>
   <p class="meta">Growth Intelligence for Fiverr Sellers</p>
 

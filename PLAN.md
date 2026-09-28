@@ -55,6 +55,12 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
 - Static HTML/CSS/JS only — no server, no build step. Served by GitHub Pages.
 - `assets/site.css` shared styles · `assets/builder.js` gig generator · `assets/scoring.js` 8-dimension engine
 - `data/categories-1..4.js` the category dataset (loaded as scripts so it also works from `file://`)
+- **Site header** (same on all 7 pages, blog included): logo mark, "Free tools" dropdown with descriptions,
+  Guides, Pricing, "Build free" CTA; gliding hover highlight; compacts on scroll with a reading-progress line;
+  phones get a full-screen menu and the header hides on scroll down / returns on scroll up. Markup lives in each
+  page (no JS needed to see it); behaviour is in `motion.js`, styles in the Header block of `site.css`.
+  To change the header, edit `tools/header.pl` and run `perl tools/header.pl .` from Git Bash; it rewrites the
+  header on every page and is safe to re-run. `tools/` is excluded from the Cloudflare copy via `.assetsignore`.
 - `assets/finder.js` homepage quick tools (keyword search + title check), built on the dataset, `builder.js` and
   `scoring.js`. Title category detection is word-level with light stemming ("edit videos" → Video Editing).
 - `assets/motion.js` + the Motion block in `site.css`: sticky glass header, scroll reveals (`data-reveal`,
