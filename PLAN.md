@@ -31,6 +31,11 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
 - [x] Gig Health Check (`tool.html`) — category-aware scoring, prefill from Builder, opt-in data sharing
 - [x] Category Intelligence (`categories.html`) — searchable and filterable, deep-links into Builder
 - [x] Homepage rebuilt around the 3-tool workflow and new offer
+- [x] Homepage v3 (2026-09-29), from a competitor review (FivData, Fivlytics, eRank, vidIQ): search-first hero with
+      "Find keywords" (category/keyword autocomplete → keywords, 5 tags, title idea, suggested prices) and
+      "Check my title" (title score + fixes + title ideas, category auto-detected); "Built for where you are"
+      (New / Level 1 / Level 2); "Safe for your Fiverr account" + FAQ with FAQPage schema.
+- [ ] **Decision needed**: pricing vs the market. FivData Pro is $1.99/mo; our Growth Intelligence is $19/mo.
 - [x] Analytics (GoatCounter, site code `gighealthcheck`) on all pages.
       **Action needed**: claim the site code free at goatcounter.com.
 - [x] Forms via FormSubmit (waitlist, makeover requests, benchmark sharing).
@@ -50,3 +55,11 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
 - Static HTML/CSS/JS only — no server, no build step. Served by GitHub Pages.
 - `assets/site.css` shared styles · `assets/builder.js` gig generator · `assets/scoring.js` 8-dimension engine
 - `data/categories-1..4.js` the category dataset (loaded as scripts so it also works from `file://`)
+- `assets/finder.js` homepage quick tools (keyword search + title check), built on the dataset, `builder.js` and
+  `scoring.js`. Title category detection is word-level with light stemming ("edit videos" → Video Editing).
+- `assets/motion.js` + the Motion block in `site.css`: sticky glass header, scroll reveals (`data-reveal`,
+  `data-stagger`, `data-count`), cursor spotlight (`.spot`), hover lift (`.lift`), result cascades. No libraries.
+  Entrances animate `translate`, so `transform` stays free for hovers. Everything is disabled under
+  `prefers-reduced-motion`, and content is only hidden for reveal once JS has added the `js` class.
+- A neo-brutalist redesign was tried and rejected (2026-09-28). It is kept on the local git branch
+  `design/neo-brutalist` and exported to OneDrive ("Fiverr Seller Intelligence - Neo-brutalist design").

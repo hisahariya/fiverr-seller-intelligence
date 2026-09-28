@@ -6,8 +6,11 @@
 @media (prefers-color-scheme: light){
   :root{ --bg:#f6f7fb; --panel:#ffffff; --panel-2:#f0f2f7; --border:#e2e5ec; --text:#1a1d24; --muted:#5b6270; --accent:#1fa45c; --accent-2:#138a4c; --on-accent:#ffffff; }
 }
+:root{ --accent-3:#4cc9f0; --glow:rgba(51,209,122,.35); --ease:cubic-bezier(.2,.8,.2,1); }
+@media (prefers-color-scheme: light){ :root{ --accent-3:#0e7490; --glow:rgba(31,164,92,.28); } }
 *{box-sizing:border-box}
-html,body{overflow-x:hidden}
+/* clip, not hidden: hidden turns body into a scroll container and breaks the sticky header */
+html,body{overflow-x:hidden;overflow-x:clip}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
 a{color:var(--accent-2)}
 .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
@@ -74,3 +77,68 @@ td.num{white-space:nowrap}
 
 .site-footer{padding:28px 0;color:var(--muted);font-size:13px;border-top:1px solid var(--border);text-align:center}
 .site-footer a{color:var(--muted)}
+
+/* ---------- Motion ---------- */
+/* Entrances use `translate`, leaving `transform` free for hover lifts and floats */
+@keyframes rise{from{opacity:0;translate:0 14px}to{opacity:1;translate:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4%,-6%) scale(1.08)}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--glow)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes spin{to{--ang:360deg}}
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+/* Glass header that stays pinned */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(11,13,18,.72);-webkit-backdrop-filter:saturate(1.5) blur(14px);backdrop-filter:saturate(1.5) blur(14px);transition:box-shadow .3s}
+@media (prefers-color-scheme: light){.site-header{background:rgba(246,247,251,.78)}}
+.site-header.scrolled{box-shadow:0 8px 30px -12px rgba(0,0,0,.45)}
+.brand{transition:opacity .2s}
+.brand:hover{opacity:.85}
+.site-nav a{transition:color .2s,background .2s}
+
+/* Buttons: lift, glow and a light sweep */
+.btn{position:relative;overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s,border-color .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px -10px var(--glow)}
+.btn:active{transform:translateY(0)}
+.btn:not(.btn-ghost)::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .6s var(--ease);pointer-events:none}
+.btn:not(.btn-ghost):hover::after{left:130%}
+.btn-ghost:hover{border-color:var(--accent);box-shadow:0 10px 26px -14px var(--glow)}
+
+/* Cards: lift + cursor spotlight */
+.lift{transition:transform .3s var(--ease),border-color .3s,box-shadow .3s}
+.lift:hover{transform:translateY(-4px);border-color:rgba(51,209,122,.55);box-shadow:0 18px 40px -22px var(--glow)}
+.spot{position:relative}
+.spot::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(51,209,122,.10),transparent 45%);opacity:0;transition:opacity .35s;pointer-events:none}
+.spot:hover::before{opacity:1}
+
+/* Inputs */
+input,textarea,select{transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(51,209,122,.18)}
+
+/* Scroll reveal (only when JS is running, so content never stays hidden) */
+.js [data-reveal]{opacity:0;translate:0 18px;transition:opacity .7s var(--ease) calc(var(--i,0) * 90ms),translate .7s var(--ease) calc(var(--i,0) * 90ms)}
+.js [data-reveal].lift{transition:opacity .7s var(--ease) calc(var(--i,0) * 90ms),translate .7s var(--ease) calc(var(--i,0) * 90ms),transform .3s var(--ease),border-color .3s,box-shadow .3s}
+.js [data-reveal].in{opacity:1;translate:none}
+
+/* App pages ease in on load */
+.js .page>.wrap>*{animation:rise .6s var(--ease) both}
+.js .page>.wrap>*:nth-child(2){animation-delay:.08s}
+.js .page>.wrap>*:nth-child(3){animation-delay:.16s}
+.js .page>.wrap>*:nth-child(4){animation-delay:.24s}
+
+/* Results cascade in (Builder output, Health Check dimensions, Category cards) */
+.pop>.out-block,.cascade>*{animation:rise .5s var(--ease) both}
+.pop>.out-block:nth-child(2),.cascade>*:nth-child(2){animation-delay:.05s}
+.pop>.out-block:nth-child(3),.cascade>*:nth-child(3){animation-delay:.1s}
+.pop>.out-block:nth-child(4),.cascade>*:nth-child(4){animation-delay:.15s}
+.pop>.out-block:nth-child(5),.cascade>*:nth-child(5){animation-delay:.2s}
+.pop>.out-block:nth-child(6),.cascade>*:nth-child(6){animation-delay:.25s}
+.pop>.out-block:nth-child(7),.cascade>*:nth-child(7){animation-delay:.3s}
+.pop>.out-block:nth-child(8),.cascade>*:nth-child(8){animation-delay:.35s}
+.pop>.out-block:nth-child(n+9),.cascade>*:nth-child(n+9){animation-delay:.4s}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .js [data-reveal]{opacity:1;translate:none}
+}

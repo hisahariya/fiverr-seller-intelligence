@@ -6,6 +6,8 @@
 <title>Category Intelligence — Fiverr Keywords, Tags & Pricing</title>
 <meta name="description" content="Keywords, tags, package structures, extras and winning tactics for 40 Fiverr categories. Free research for Fiverr sellers.">
 <link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="assets/motion.js" defer></script>
 <style>
   .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
   .filters input{flex:1;min-width:200px}
@@ -49,7 +51,7 @@
     </div>
     <div class="group-chips" id="groups"></div>
     <div class="count" id="count"></div>
-    <div class="cat-list" id="list"></div>
+    <div class="cat-list cascade" id="list"></div>
     <p class="note">Prices are suggested starting points compiled as guidance, not live Fiverr market data. Compare with the top gigs in your category before setting yours.</p>
   </div>
 </main>
@@ -74,7 +76,7 @@ function esc(s) {
 function card(c) {
   const [b, s, p] = c.pkgs;
   return `
-  <article class="card cat-card" id="${c.id}">
+  <article class="card cat-card spot" id="${c.id}">
     <div class="group">${esc(c.group)}</div>
     <h2>${esc(c.name)}</h2>
     <div class="price-row">
@@ -119,9 +121,11 @@ $('groups').addEventListener('click', e => {
   const b = e.target.closest('button');
   if (!b) return;
   activeGroup = b.dataset.group;
+  $('list').classList.add('cascade');
   renderGroups(); render();
 });
-$('search').addEventListener('input', render);
+// Typing re-renders on every key, so skip the entrance animation there
+$('search').addEventListener('input', () => { $('list').classList.remove('cascade'); render(); });
 
 renderGroups(); render();
 if (location.hash) {

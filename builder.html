@@ -6,6 +6,8 @@
 <title>Gig Builder — Free Fiverr Gig Generator</title>
 <meta name="description" content="Pick your Fiverr category and niche, and get ready-to-paste titles, tags, description, packages, extras and FAQs in seconds. Free, no signup.">
 <link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="assets/motion.js" defer></script>
 </head>
 <body>
 <header class="site-header">
@@ -180,8 +182,8 @@ function build() {
   history.replaceState(null, '', url);
 }
 
-$('builderForm').addEventListener('submit', e => { e.preventDefault(); build(); if (window.innerWidth < 860) $('output').scrollIntoView({ behavior: 'smooth' }); });
-['cat', 'niche', 'aud', 'level'].forEach(id => $(id).addEventListener(id === 'cat' || id === 'level' ? 'change' : 'input', () => { if (current) build(); }));
+$('builderForm').addEventListener('submit', e => { e.preventDefault(); build(); Motion.replay($('output'), 'pop'); if (window.innerWidth < 860) $('output').scrollIntoView({ behavior: 'smooth' }); });
+['cat', 'niche', 'aud', 'level'].forEach(id => $(id).addEventListener(id === 'cat' || id === 'level' ? 'change' : 'input', () => { if (current) { $('output').classList.remove('pop'); build(); } }));
 
 $('output').addEventListener('click', e => {
   const btn = e.target.closest('button');
