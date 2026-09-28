@@ -13,8 +13,14 @@
   legend{font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:4px;padding:0}
   .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
   .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .grid-tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
-  @media (max-width:860px){.grid-tool{grid-template-columns:minmax(0,1fr)}}
+  .grid-tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"form res" "form ind";grid-template-rows:auto 1fr;gap:20px;align-items:start}
+  .grid-tool>.card:first-child{grid-area:form}
+  #results{grid-area:res}
+  #industry{grid-area:ind}
+  @media (max-width:860px){.grid-tool{grid-template-columns:minmax(0,1fr);grid-template-areas:"form" "res" "ind";grid-template-rows:auto}}
+  .ind-jump{display:block;margin-top:10px;font-size:13.5px;font-weight:600;text-decoration:none}
+  .ind-jump:hover{text-decoration:underline}
+  .ind-jump[hidden]{display:none}
   #results{display:none}
   .score-hero{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}
   .score-ring{position:relative;width:132px;height:132px;flex:none}
@@ -59,7 +65,7 @@
         <button type="button" class="nav-link is-current" aria-expanded="false" aria-controls="menu-tools">Free tools <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         <div class="mega" id="menu-tools">
           <a class="mega-item" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder <em>Start here</em></b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
-          <a class="mega-item" href="tool.html" aria-current="page"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig on 8 growth factors, with exact fixes</small></span></a>
+          <a class="mega-item" href="tool.html" aria-current="page"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
           <a class="mega-item" href="categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 40 categories</small></span></a>
           <div class="mega-foot"><span>Free · No signup · No Fiverr login</span><a href="index.html#finder">Quick title check →</a></div>
         </div>
@@ -78,7 +84,7 @@
   <div class="mm-inner">
     <p class="mm-label">Free tools</p>
     <a class="mm-tool" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
-    <a class="mm-tool" href="tool.html" aria-current="page"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig on 8 growth factors, with exact fixes</small></span></a>
+    <a class="mm-tool" href="tool.html" aria-current="page"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
     <a class="mm-tool" href="categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 40 categories</small></span></a>
     <p class="mm-label">More</p>
     <a class="mm-link" href="index.html#guides">Seller guides</a>
@@ -92,7 +98,7 @@
 <main class="page" id="main">
   <div class="wrap">
     <h1>Gig Health Check</h1>
-    <p class="sub">Paste in your gig's real details and pick your category. The scoring runs in your browser. Nothing is sent anywhere unless you choose to share your numbers anonymously.</p>
+    <p class="sub">Paste in your gig's real details and pick your category. You'll get a score, specific fixes, and a side-by-side with strong gigs in your category. It all runs in your browser, and nothing is sent anywhere unless you choose to share your numbers anonymously.</p>
 
     <div class="banner" id="draftBanner">Draft loaded from the Gig Builder. Add your rating, reviews, gallery and response time to finish the check.</div>
 
@@ -178,12 +184,17 @@
               <div class="muted small">/ 100</div>
             </div>
           </div>
-          <div><div id="verdict" class="verdict">—</div></div>
+          <div>
+            <div id="verdict" class="verdict">—</div>
+            <a class="ind-jump" href="#industry" id="indJump" hidden>See how you compare ↓</a>
+          </div>
         </div>
         <div id="dimensions"></div>
         <div id="shareStatus" class="muted"></div>
         <div class="note" id="nextStep"></div>
       </div>
+
+      <div class="card industry" id="industry" hidden></div>
     </div>
   </div>
 </main>
@@ -197,6 +208,7 @@
 <script src="data/categories-3.js"></script>
 <script src="data/categories-4.js"></script>
 <script src="assets/scoring.js"></script>
+<script src="assets/industry.js"></script>
 <script>
 const CATS = window.CATEGORIES;
 const byId = Object.fromEntries(CATS.map(c => [c.id, c]));
@@ -331,6 +343,16 @@ $('auditForm').addEventListener('submit', e => {
   const total = renderResults(GigScoring.runAudit(input, cat), cat);
   if ($('share').checked) shareAnonymously(cat, total);
   else $('shareStatus').textContent = '';
+
+  // Industry profile: the category's benchmark, side by side with the gig just checked
+  if (cat) {
+    IndustryProfile.show($('industry'), IndustryProfile.auditHtml(cat, input), true);
+    $('indJump').textContent = `See how you compare with strong ${cat.name} gigs ↓`;
+    $('indJump').hidden = false;
+  } else {
+    $('industry').hidden = true;
+    $('indJump').hidden = true;
+  }
 });
 
 populateCategories();

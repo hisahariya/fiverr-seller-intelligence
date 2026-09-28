@@ -10,7 +10,7 @@ my %ICON = (
 );
 my @TOOLS = (
   [builder    => 'builder.html',    'Gig Builder',           'Titles, tags, description and 3 packages, ready to paste', 'Start here'],
-  [tool       => 'tool.html',       'Gig Health Check',      'Score your gig on 8 growth factors, with exact fixes', ''],
+  [tool       => 'tool.html',       'Gig Health Check',      'Score your gig and compare it with strong gigs in your category', ''],
   [categories => 'categories.html', 'Category Intelligence', 'Keywords, tags and starting prices for 40 categories', ''],
 );
 # page file => [path prefix, current key]

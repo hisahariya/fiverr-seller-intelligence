@@ -35,6 +35,16 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
       "Find keywords" (category/keyword autocomplete → keywords, 5 tags, title idea, suggested prices) and
       "Check my title" (title score + fixes + title ideas, category auto-detected); "Built for where you are"
       (New / Level 1 / Level 2); "Safe for your Fiverr account" + FAQ with FAQPage schema.
+- [x] Industry profile (2026-09-29, `assets/industry.js`): "{Category} at a glance" card in the Builder and Health
+      Check — price range, delivery, extras, top keyword, a suggested price ladder, buyer keywords (ticked when used).
+      The Health Check adds "You vs. a strong {category} gig": 8 rows (title, tags, description, Basic price, tiers,
+      delivery, extras, gallery) using the engine's own thresholds, each with a specific fix. The Builder marks the
+      draft's prices on the ladder and explains the seller-level adjustment. Deliberately NOT real sellers' profiles
+      (would need scraping + raises privacy issues); figures are labelled as suggested starting points.
+- [ ] Industry profile → real data: when benchmark contributions allow, replace suggested figures with per-category
+      medians ("based on N sellers"). This is the natural core of the paid Growth Intelligence tier.
+- [ ] Optional: one public SEO page per category (40 pages, e.g. "Logo Design on Fiverr: prices, tags and keywords")
+      generated from the same profile.
 - [ ] **Decision needed**: pricing vs the market. FivData Pro is $1.99/mo; our Growth Intelligence is $19/mo.
 - [x] Analytics (GoatCounter, site code `gighealthcheck`) on all pages.
       **Action needed**: claim the site code free at goatcounter.com.
@@ -61,6 +71,8 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
   page (no JS needed to see it); behaviour is in `motion.js`, styles in the Header block of `site.css`.
   To change the header, edit `tools/header.pl` and run `perl tools/header.pl .` from Git Bash; it rewrites the
   header on every page and is safe to re-run. `tools/` is excluded from the Cloudflare copy via `.assetsignore`.
+- `assets/industry.js` Industry profile (category benchmark + "You vs. a strong gig"), used by `builder.html` and
+  `tool.html`; styles in the "Industry profile" block of `site.css`.
 - `assets/finder.js` homepage quick tools (keyword search + title check), built on the dataset, `builder.js` and
   `scoring.js`. Title category detection is word-level with light stemming ("edit videos" → Video Editing).
 - `assets/motion.js` + the Motion block in `site.css`: sticky glass header, scroll reveals (`data-reveal`,

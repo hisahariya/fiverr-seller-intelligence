@@ -8,6 +8,14 @@
 <link rel="stylesheet" href="assets/site.css">
 <script>document.documentElement.classList.add('js')</script>
 <script src="assets/motion.js" defer></script>
+<style>
+  /* Desktop: industry profile sits under the form while the draft fills the right column. Phones: after the draft. */
+  .grid-2.with-industry{grid-template-areas:"form out" "ind out";grid-template-rows:auto 1fr}
+  .grid-2.with-industry>.card:first-child{grid-area:form}
+  .grid-2.with-industry>#output{grid-area:out}
+  .grid-2.with-industry>#industry{grid-area:ind}
+  @media (max-width:860px){.grid-2.with-industry{grid-template-areas:"form" "out" "ind";grid-template-rows:auto}}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -23,7 +31,7 @@
         <button type="button" class="nav-link is-current" aria-expanded="false" aria-controls="menu-tools">Free tools <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         <div class="mega" id="menu-tools">
           <a class="mega-item" href="builder.html" aria-current="page"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder <em>Start here</em></b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
-          <a class="mega-item" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig on 8 growth factors, with exact fixes</small></span></a>
+          <a class="mega-item" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
           <a class="mega-item" href="categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 40 categories</small></span></a>
           <div class="mega-foot"><span>Free · No signup · No Fiverr login</span><a href="index.html#finder">Quick title check →</a></div>
         </div>
@@ -42,7 +50,7 @@
   <div class="mm-inner">
     <p class="mm-label">Free tools</p>
     <a class="mm-tool" href="builder.html" aria-current="page"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
-    <a class="mm-tool" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig on 8 growth factors, with exact fixes</small></span></a>
+    <a class="mm-tool" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
     <a class="mm-tool" href="categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 40 categories</small></span></a>
     <p class="mm-label">More</p>
     <a class="mm-link" href="index.html#guides">Seller guides</a>
@@ -58,7 +66,7 @@
     <h1>Gig Builder</h1>
     <p class="sub">Pick your category and niche. You'll get titles, tags, a full description, 3 packages, extras and FAQs, ready to paste into Fiverr. Everything runs in your browser.</p>
 
-    <div class="grid-2">
+    <div class="grid-2 with-industry">
       <div class="card">
         <form id="builderForm">
           <label for="cat" style="margin-top:0">Category</label>
@@ -85,6 +93,8 @@
       <div class="card" id="output">
         <div class="empty">Choose a category and click <b>Build my gig</b> to see your draft here.</div>
       </div>
+
+      <div class="card industry" id="industry" hidden></div>
     </div>
   </div>
 </main>
@@ -98,6 +108,7 @@
 <script src="data/categories-3.js"></script>
 <script src="data/categories-4.js"></script>
 <script src="assets/builder.js"></script>
+<script src="assets/industry.js"></script>
 <script>
 const CATS = window.CATEGORIES;
 const byId = Object.fromEntries(CATS.map(c => [c.id, c]));
@@ -204,17 +215,19 @@ function render(g) {
   `;
 }
 
-function build() {
+function build(animate) {
   const cat = byId[$('cat').value];
   if (!cat) return;
   render(GigBuilder.buildGig(cat, { niche: $('niche').value, aud: $('aud').value, level: $('level').value }));
+  // Industry profile for this category, with the draft's prices marked on the ladder
+  IndustryProfile.show($('industry'), IndustryProfile.builderHtml(cat, current, $('level').value), animate);
   const url = new URL(location.href);
   url.searchParams.set('cat', cat.id);
   history.replaceState(null, '', url);
 }
 
-$('builderForm').addEventListener('submit', e => { e.preventDefault(); build(); Motion.replay($('output'), 'pop'); if (window.innerWidth < 860) $('output').scrollIntoView({ behavior: 'smooth' }); });
-['cat', 'niche', 'aud', 'level'].forEach(id => $(id).addEventListener(id === 'cat' || id === 'level' ? 'change' : 'input', () => { if (current) { $('output').classList.remove('pop'); build(); } }));
+$('builderForm').addEventListener('submit', e => { e.preventDefault(); build(true); Motion.replay($('output'), 'pop'); if (window.innerWidth < 860) $('output').scrollIntoView({ behavior: 'smooth' }); });
+['cat', 'niche', 'aud', 'level'].forEach(id => $(id).addEventListener(id === 'cat' || id === 'level' ? 'change' : 'input', () => { if (current) { $('output').classList.remove('pop'); build(false); } }));
 
 $('output').addEventListener('click', e => {
   const btn = e.target.closest('button');
@@ -243,7 +256,7 @@ $('output').addEventListener('click', e => {
 
 populateCategories();
 const preset = new URLSearchParams(location.search).get('cat');
-if (preset && byId[preset]) { $('cat').value = preset; build(); }
+if (preset && byId[preset]) { $('cat').value = preset; build(true); }
 </script>
 <script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
