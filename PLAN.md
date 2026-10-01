@@ -4,7 +4,10 @@ A standalone venture (separate from the design agency and Studio Command CRM) th
 sellers build and improve their gigs with structured category intelligence and, over time,
 real benchmarks contributed by sellers.
 
-Live: https://sarucreatin.github.io/fiverr-seller-intelligence/ (GitHub Pages)
+Live: https://hisahariya.github.io/fiverr-seller-intelligence/ (GitHub Pages, repo github.com/hisahariya/fiverr-seller-intelligence)
+Moved 2026-10-01: the original account `sarucreatin` started returning 404 (repo, profile and Pages site), so the old
+URL sarucreatin.github.io/fiverr-seller-intelligence is dead. Update any links already posted. The private portfolio
+branch from that repo was deliberately NOT moved here (this repo is public).
 Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from `main` with `npx wrangler deploy`, no build step). `.assetsignore` keeps PLAN.md and `marketing/` off the Cloudflare site.
 
 ## The offer (v2)
