@@ -39,7 +39,7 @@ faq:[['Which software do you use?','PowerPoint, Google Slides or Keynote, whiche
 gallery:['Before and after slide redesign','Deck thumbnails grid','Charts and data visualization samples'],
 tips:['Before-and-after slides are the fastest way to prove value.','Name all three tools (PowerPoint, Slides, Keynote) in tags.','Price per slide band. Buyers understand it instantly.']},
 
-{id:'bookkeeping',group:'Business',name:'Bookkeeping',noun:'bookkeeping service',nd:'accurate',
+{id:'bookkeeping',group:'Finance',name:'Bookkeeping',noun:'bookkeeping service',nd:'accurate',
 kw:['bookkeeping','quickbooks','xero','bank reconciliation','accounting','financial statements'],
 tags:['bookkeeping','quickbooks','xero','reconciliation','accounting','small business'],
 titles:['I will do {niche} bookkeeping in QuickBooks or Xero','I will reconcile your accounts with {niche} bookkeeping','I will be your monthly {niche} bookkeeper for {aud}','I will clean up your books with a {niche} catch-up service'],

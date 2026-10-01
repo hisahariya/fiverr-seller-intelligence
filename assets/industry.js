@@ -69,13 +69,20 @@
       + block('What buyers ask', cat.faq.map(f => `<li><b>${esc(f[0])}</b><br>${esc(f[1])}</li>`).join(''));
   }
 
-  function foot(cat, mode) {
-    let note = 'These figures are suggested starting points compiled as guidance, not live Fiverr data. Once enough sellers share their numbers anonymously, this profile will switch to real averages.';
-    if (mode === 'audit') note += ' Tick "Share my gig\'s numbers anonymously" before your next check to help build them.';
+  // Where these numbers come from (trust label), a way to correct them, then the next step
+  function foot(cat, mode, myBasic) {
+    const T = root.DataTrust;
+    let trust;
+    if (T) {
+      trust = T.labelHtml(cat) + T.feedbackHtml(cat, mode === 'audit' ? 'health-check' : 'builder', myBasic);
+      if (mode === 'audit') trust += '<p class="ind-note">Want real averages here sooner? Tick "Share my gig\'s numbers anonymously" before your next check.</p>';
+    } else {
+      trust = '<p>These figures are suggested starting points compiled as guidance, not live Fiverr data.</p>';
+    }
     const ctas = mode === 'audit'
       ? `<a class="btn" href="builder.html?cat=${cat.id}">Fix it in the Builder →</a><a class="btn btn-ghost" href="index.html#makeover">Have us do it · $49</a>`
       : `<a class="btn btn-ghost" href="categories.html#${cat.id}">Full category intelligence →</a>`;
-    return `<div class="ind-foot"><p>${note}</p><div class="ind-cta">${ctas}</div></div>`;
+    return `<div class="ind-foot">${trust}<div class="ind-cta">${ctas}</div></div>`;
   }
 
   // ---------- You vs. a strong gig (same thresholds as the Health Check engine) ----------
@@ -132,14 +139,15 @@
       `Around $${sb} to start`,
       `Raise it toward $${sb}. Very low prices attract the hardest-to-please buyers.`);
 
-    // Tier spread: Standard ≥1.4× Basic, Premium 1.8×–6× Basic
+    // Tier spread: Standard ≥1.4× Basic, Premium ≥1.8× Basic and within the category's normal range
+    const premCap = root.GigScoring && root.GigScoring.premiumCap ? root.GigScoring.premiumCap(cat) : 6;
     const set = [b, s, p].filter(v => v > 0).length;
     const r1 = set === 3 ? s / b : 0, r2 = set === 3 ? p / b : 0;
-    add('Package tiers', !set ? 'missing' : set < 3 ? 'bad' : r1 >= 1.4 && r2 >= 1.8 && r2 <= 6 ? 'ok' : 'warn',
+    add('Package tiers', !set ? 'missing' : set < 3 ? 'bad' : r1 >= 1.4 && r2 >= 1.8 && r2 <= premCap ? 'ok' : 'warn',
       set === 3 ? `$${b} / $${s} / $${p}` : `${set} of 3 tiers set`,
       `3 tiers with clear jumps, like $${sb} / $${ss} / $${sp}`,
       set < 3 ? 'Offer all three tiers so buyers can choose to spend more.'
-        : r2 > 6 ? 'Bring Premium within 6× Basic so the jump still makes sense.'
+        : r2 > premCap ? `Bring Premium within about ${Math.round(premCap)}× Basic so the jump still makes sense.`
         : 'Widen the gaps: Standard at least 1.4× Basic, Premium at least 1.8×.');
 
     // Basic delivery vs the category's usual time
@@ -190,7 +198,7 @@
       <section class="ind-sec"><h3>Price ladder</h3>${ladder(cat, [+input.basicPrice || 0, +input.standardPrice || 0, +input.premiumPrice || 0], 'You')}</section>
       <section class="ind-sec"><h3>What buyers search</h3>${keywords(cat, `${input.title || ''} ${input.tags || ''}`)}</section>
       <section class="ind-sec ind-more-wrap">${more(cat)}</section>
-      ${foot(cat, 'audit')}`;
+      ${foot(cat, 'audit', input.basicPrice)}`;
   }
 
   // Gig Builder: the category snapshot, with the draft's prices marked on the ladder

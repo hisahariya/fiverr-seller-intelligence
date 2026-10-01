@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Our Data Works — GigHealthCheck</title>
+<meta name="description" content="Where the keywords, tags and prices on GigHealthCheck come from, how far to trust them today, and how they become real seller data. No scraping, no logins.">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script src="assets/motion.js" defer></script>
+<style>
+  .lead{font-size:18px;color:var(--muted);max-width:740px;margin:0 0 8px}
+  .status-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:28px 0 0}
+  @media (max-width:760px){.status-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .status-row .card{padding:16px}
+  .status-row b{display:block;font-size:30px;line-height:1.1;margin-top:10px;font-variant-numeric:tabular-nums}
+  .status-row small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .trust-badge.lvl-all{background:var(--panel-2);color:var(--text)}
+  .sec{margin-top:52px}
+  .sec h2{font-size:24px;margin:0 0 10px}
+  .sec>p{color:var(--muted);max-width:760px;font-size:15.5px}
+  .steps3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+  @media (max-width:860px){.steps3{grid-template-columns:minmax(0,1fr)}}
+  .steps3 h3{margin:12px 0 6px;font-size:17px}
+  .steps3 p{margin:0;color:var(--muted);font-size:14.5px}
+  .levels-list{display:grid;gap:10px;margin-top:16px}
+  .level-row{display:grid;grid-template-columns:180px minmax(0,1fr);gap:14px;align-items:start;padding:14px 16px}
+  @media (max-width:600px){.level-row{grid-template-columns:minmax(0,1fr)}}
+  .level-row p{margin:0;color:var(--muted);font-size:14.5px}
+  .ways{display:grid;gap:12px;margin-top:16px}
+  .ways .card h3{margin:0 0 6px;font-size:16.5px}
+  .ways .card p{margin:0;color:var(--muted);font-size:14.5px}
+  .never{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px;max-width:760px}
+  .never li{display:flex;gap:12px;align-items:flex-start;font-size:15px}
+  .never li::before{content:"✕";flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:rgba(240,80,90,.16);color:var(--bad)}
+  .coverage-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:16px 0 12px}
+  .coverage-tools input{max-width:340px}
+  .coverage-tools span{font-size:13px;color:var(--muted)}
+  table.coverage td:nth-child(3){white-space:nowrap}
+  table.coverage a{text-decoration:none;font-weight:600}
+  table.coverage a:hover{text-decoration:underline}
+  table.coverage td:last-child{color:var(--muted);font-size:13px}
+  .changelog{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px;max-width:760px}
+  .changelog li{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;font-size:14.5px}
+  @media (max-width:520px){.changelog li{grid-template-columns:minmax(0,1fr);gap:2px}}
+  .changelog time{color:var(--muted);font-variant-numeric:tabular-nums}
+  .cta-band{margin-top:52px;text-align:center;padding:30px 22px}
+  .cta-band h2{margin:0;font-size:24px}
+  .cta-band p{color:var(--muted);max-width:560px;margin:10px auto 20px}
+  .cta-band .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="GigHealthCheck home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+      <span class="brand-word">Gig<span>Health</span>Check</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <span class="nav-glide" aria-hidden="true"></span>
+      <div class="nav-item has-menu">
+        <button type="button" class="nav-link" aria-expanded="false" aria-controls="menu-tools">Free tools <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="mega" id="menu-tools">
+          <a class="mega-item" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder <em>Start here</em></b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
+          <a class="mega-item" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
+          <a class="mega-item" href="categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 80 subcategories</small></span></a>
+          <div class="mega-foot"><span>Free · No signup · No Fiverr login</span><a href="index.html#finder">Quick title check →</a></div>
+        </div>
+      </div>
+      <a class="nav-link" href="index.html#guides">Guides</a>
+      <a class="nav-link" href="index.html#pricing">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn header-cta" href="builder.html">Build free <span aria-hidden="true">→</span></a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="scroll-progress" aria-hidden="true"><i></i></div>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mm-inner">
+    <p class="mm-label">Free tools</p>
+    <a class="mm-tool" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
+    <a class="mm-tool" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
+    <a class="mm-tool" href="categories.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span><span><b>Category Intelligence</b><small>Keywords, tags and starting prices for 80 subcategories</small></span></a>
+    <p class="mm-label">More</p>
+    <a class="mm-link" href="index.html#guides">Seller guides</a>
+    <a class="mm-link" href="index.html#pricing">Pricing</a>
+    <a class="mm-link" href="index.html#makeover">Gig Makeover</a>
+    <a class="mm-link" href="data.html">How our data works</a>
+    <a class="btn mm-cta" href="builder.html">Build my gig free →</a>
+    <p class="mm-note">Free · No signup · No Fiverr login</p>
+  </div>
+</div>
+
+<main class="page" id="main">
+  <div class="wrap">
+    <h1>How our data works</h1>
+    <p class="lead">Every keyword, tag and price on this site comes from somewhere. Here is exactly where, how far you can trust it today, and how it gets more accurate over time.</p>
+
+    <div class="status-row" id="statusRow">
+      <div class="card"><span class="trust-badge lvl-all">All</span><b id="stTotal">80</b><small>subcategories covered</small></div>
+      <div class="card"><span class="trust-badge lvl-guidance">Guidance</span><b id="stGuidance">80</b><small>suggested starting points</small></div>
+      <div class="card"><span class="trust-badge lvl-checked">Spot-checked</span><b id="stChecked">0</b><small>compared with live gigs by hand</small></div>
+      <div class="card"><span class="trust-badge lvl-verified">Seller data</span><b id="stSellers">0</b><small>based on sellers' real numbers</small></div>
+    </div>
+
+    <section class="sec" aria-labelledby="s-short">
+      <h2 id="s-short">The short version</h2>
+      <div class="steps3">
+        <div class="card"><span class="trust-badge lvl-guidance">Today</span><h3>Guidance</h3><p>Every subcategory starts with suggested starting points written by our team, based on how gigs in that category are usually packaged and priced. A sensible place to start, not market data.</p></div>
+        <div class="card"><span class="trust-badge lvl-checked">Next</span><h3>Checked by hand</h3><p>Each month a person compares a few categories with live Fiverr gigs in a normal browser, the way any seller researches competitors. We fix what is off and show the date.</p></div>
+        <div class="card"><span class="trust-badge lvl-verified">Goal</span><h3>Real seller data</h3><p>When 20 or more sellers in a category share their numbers through the Health Check, that category switches to real averages, with the number of sellers shown.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="s-levels">
+      <h2 id="s-levels">What each label means</h2>
+      <p>You will see one of these labels next to the prices for every category in the Builder, the Health Check and Category Intelligence.</p>
+      <div class="levels-list">
+        <div class="card level-row"><div><span class="trust-badge lvl-guidance">Guidance</span></div><p>Suggested starting points written as guidance. Not yet verified against live gigs or seller data. Always compare with the top gigs in your own category.</p></div>
+        <div class="card level-row"><div><span class="trust-badge lvl-checked">Spot-checked</span></div><p>A person compared the numbers with live Fiverr gigs by hand on the date shown, and corrected anything that was clearly off.</p></div>
+        <div class="card level-row"><div><span class="trust-badge lvl-early">Early seller data</span></div><p>Based on numbers shared by fewer than 20 sellers in the category. Useful, but still a small sample.</p></div>
+        <div class="card level-row"><div><span class="trust-badge lvl-verified">Seller data</span></div><p>Based on numbers shared anonymously by 20 or more sellers in the category. We use the median (the middle value), so one very cheap or very expensive gig cannot skew it.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="s-source">
+      <h2 id="s-source">Where today's numbers come from</h2>
+      <p>The current figures were written by the GigHealthCheck team as guidance for Level 1 and Level 2 sellers: typical package structures, delivery times, paid extras and price steps for each subcategory. They were not measured from live Fiverr listings, so treat them as a starting point.</p>
+      <p>Keywords and tags are common phrases buyers use to search for each service. Fiverr does not publish search volumes or rankings, so we do not show any. The Gig Builder adjusts prices for your seller level: about 20% lower for new sellers and about 30% higher for established ones.</p>
+    </section>
+
+    <section class="sec" aria-labelledby="s-better">
+      <h2 id="s-better">How the numbers get more accurate</h2>
+      <div class="ways">
+        <div class="card"><h3>1. Sellers share their numbers anonymously</h3><p>In the Health Check you can tick "Share my gig's numbers anonymously". We receive only the category and numbers: your three prices, delivery days, revisions, rating, review count, number of gallery images, whether you have a video, response time, number of extras, number of tags and your score. Never your title, description or tags. Sharing is off by default.</p></div>
+        <div class="card"><h3>2. Spot-checks by hand</h3><p>Each month we pick a few categories, look at the first page of Fiverr results for the main keyword, note the package prices of Level 1 and Level 2 gigs, and correct our numbers when they are clearly off. This is ordinary research by a person, not an automated tool.</p></div>
+        <div class="card"><h3>3. "Is this price right?" answers</h3><p>Every category has a quick way to tell us the prices look too low, too high or about right, with your own Basic price if you want to add it. Only the category and your answer are sent.</p></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="s-never">
+      <h2 id="s-never">What we never do</h2>
+      <ul class="never">
+        <li>Scrape or crawl Fiverr. It breaks Fiverr's rules, and Fiverr actively blocks automated tools.</li>
+        <li>Ask for your Fiverr login or password.</li>
+        <li>Store your gig title, description or tags. They are checked in your browser.</li>
+        <li>Sell the numbers sellers share with us.</li>
+        <li>Show made-up statistics, fake user counts or fake reviews.</li>
+      </ul>
+    </section>
+
+    <section class="sec" aria-labelledby="s-coverage">
+      <h2 id="s-coverage">Coverage</h2>
+      <p>Every subcategory in the toolkit and the label it has today. This table updates itself as categories are checked or get seller data.</p>
+      <div class="coverage-tools">
+        <input id="covSearch" type="search" placeholder="Filter by subcategory or group" aria-label="Filter the coverage table">
+        <span id="covCount"></span>
+      </div>
+      <div class="table-wrap">
+        <table class="coverage">
+          <thead><tr><th scope="col">Subcategory</th><th scope="col">Group</th><th scope="col">Label</th><th scope="col">Details</th></tr></thead>
+          <tbody id="covBody"><tr><td colspan="4">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <noscript><p class="note">Turn on JavaScript to see the coverage table.</p></noscript>
+    </section>
+
+    <section class="sec" aria-labelledby="s-log">
+      <h2 id="s-log">Changelog</h2>
+      <ul class="changelog" id="changelog"></ul>
+    </section>
+
+    <div class="card cta-band">
+      <h2>Help make the numbers real</h2>
+      <p>Run a Health Check and tick "Share my gig's numbers anonymously". It adds no extra time, and every answer moves a category closer to real seller data.</p>
+      <div class="btns"><a class="btn" href="tool.html">Run a Health Check →</a><a class="btn btn-ghost" href="categories.html">Browse categories</a></div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">Independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.</div>
+</footer>
+
+<script src="data/categories-1.js"></script>
+<script src="data/categories-2.js"></script>
+<script src="data/categories-3.js"></script>
+<script src="data/categories-4.js"></script>
+<script src="data/categories-5.js"></script>
+<script src="data/categories-6.js"></script>
+<script src="data/categories-7.js"></script>
+<script src="data/categories-8.js"></script>
+<script src="data/meta.js"></script>
+<script src="assets/trust.js"></script>
+<script>
+(function () {
+  const CATS = window.CATEGORIES || [];
+  const T = window.DataTrust;
+  const META = window.DATA_META || {};
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  if (!T) return;
+
+  // Live counts per trust level
+  const rows = CATS.map(c => ({ c, i: T.info(c) }));
+  const count = lv => rows.filter(r => lv.includes(r.i.level)).length;
+  $('stTotal').textContent = CATS.length;
+  $('stGuidance').textContent = count(['guidance']);
+  $('stChecked').textContent = count(['checked']);
+  $('stSellers').textContent = count(['early', 'verified']);
+
+  // Coverage table, grouped in dataset order
+  const order = [...new Set(CATS.map(c => c.group))];
+  rows.sort((a, b) => order.indexOf(a.c.group) - order.indexOf(b.c.group));
+  function render(q) {
+    const t = q.trim().toLowerCase();
+    const list = rows.filter(r => !t || r.c.name.toLowerCase().includes(t) || r.c.group.toLowerCase().includes(t));
+    $('covBody').innerHTML = list.length ? list.map(r => `<tr>
+      <td><a href="categories.html#${r.c.id}">${esc(r.c.name)}</a></td>
+      <td>${esc(r.c.group)}</td>
+      <td>${T.badgeHtml(r.i.level)}</td>
+      <td>${esc(r.i.detail)}</td></tr>`).join('') : '<tr><td colspan="4">No subcategories match that filter.</td></tr>';
+    $('covCount').textContent = `${list.length} of ${CATS.length} subcategories`;
+  }
+  $('covSearch').addEventListener('input', e => render(e.target.value));
+  render('');
+
+  // Changelog
+  $('changelog').innerHTML = (META.changelog || []).map(([d, text]) =>
+    `<li><time datetime="${esc(d)}">${esc(T.day(d))}</time><span>${esc(text)}</span></li>`).join('');
+})();
+</script>
+<script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

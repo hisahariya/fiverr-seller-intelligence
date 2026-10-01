@@ -11,7 +11,7 @@
 
   const INDEX = CATS.map(c => ({
     c,
-    name: c.name.toLowerCase(),
+    name: norm(c.name), // normalised like the query, so "Facebook & Instagram Ads" matches itself
     noun: c.noun.toLowerCase(),
     terms: [...new Set(c.kw.concat(c.tags).map(s => s.toLowerCase()))],
     group: c.group.toLowerCase()
@@ -21,6 +21,9 @@
   const kwCount = new Set(INDEX.flatMap(e => e.terms)).size;
   const kwStat = $('kwCount');
   if (kwStat) { kwStat.dataset.count = kwCount; kwStat.textContent = kwCount; }
+  // ...and of subcategories, so the stat never goes stale when the dataset grows
+  const catStat = $('catCount');
+  if (catStat) { catStat.dataset.count = CATS.length; catStat.textContent = CATS.length; }
 
   // ---------- Search ----------
   function search(query) {
@@ -108,7 +111,8 @@
         <div class="chips">${g.tags.map(k => `<span class="chip on">${esc(k)}</span>`).join('')}</div></div>
       <div class="r-sec"><h4>Title idea <button type="button" data-copy="${esc(t.text)}">Copy</button></h4>${titleRow(t)}</div>
       <div class="r-sec"><h4>Suggested starting prices</h4>
-        <div class="r-prices">${g.packages.map(p => `<div><span>${p.name}</span><b>$${p.price}</b><span>${p.days} day${p.days > 1 ? 's' : ''}</span></div>`).join('')}</div></div>
+        <div class="r-prices">${g.packages.map(p => `<div><span>${p.name}</span><b>$${p.price}</b><span>${p.days} day${p.days > 1 ? 's' : ''}</span></div>`).join('')}</div>
+        ${window.DataTrust ? window.DataTrust.labelHtml(cat) : ''}</div>
       <div class="r-actions">
         <a class="btn" href="builder.html?cat=${cat.id}">Build this gig →</a>
         <a class="btn btn-ghost" href="categories.html#${cat.id}">Full category intel</a>
@@ -193,24 +197,32 @@
   }
 
   // Best-guess category from the words in the title (null if nothing matches).
-  // Word-level, with light stemming, so "edit your videos" still matches "video editing".
+  // Word-level with light stemming ("edit your videos" → video, edit), hyphens split ("short-form" → short form).
+  // Rare words count for more than common ones (IDF), and a whole buyer phrase in the title adds a bonus.
   const STOP = new Set('i will you your a an the for and or to of in on with my me any all by from that this'.split(' '));
   const stem = w => w.endsWith('ing') && w.length > 5 ? w.slice(0, -3) : (w.endsWith('s') && !w.endsWith('ss') && w.length > 3 ? w.slice(0, -1) : w);
-  const words = s => norm(s).split(' ').filter(w => w && !STOP.has(w)).map(stem);
-  const TERM_WORDS = INDEX.map(e => e.terms.concat(e.noun).map(words));
+  const words = s => norm(s).replace(/-/g, ' ').split(' ').filter(w => w && !STOP.has(w)).map(stem);
+  const DOCS = CATS.map((c, i) => {
+    const phrases = INDEX[i].terms.concat(INDEX[i].noun).map(words).filter(p => p.length);
+    const titleWords = c.titles.flatMap(t => words(t.replace(/\{(niche|aud)\}/g, ' ')));
+    return { phrases, noun: words(c.noun), vocab: new Set(phrases.flat().concat(titleWords)) };
+  });
+  const DF = new Map();
+  DOCS.forEach(d => d.vocab.forEach(w => DF.set(w, (DF.get(w) || 0) + 1)));
+  const idf = w => Math.log((CATS.length + 1) / ((DF.get(w) || 0) + 1));
 
   function detectCategory(title) {
     const have = new Set(words(title));
     let best = null, bestScore = 0;
-    INDEX.forEach((e, i) => {
-      const s = TERM_WORDS[i].reduce((sum, tw) => {
-        if (!tw.length) return sum;
-        const hits = tw.filter(w => have.has(w)).length;
-        return sum + hits / tw.length + (hits === tw.length ? tw.length : 0);
-      }, 0);
-      if (s > bestScore) { bestScore = s; best = e.c; }
+    DOCS.forEach((d, i) => {
+      let s = 0;
+      have.forEach(w => { if (d.vocab.has(w)) s += idf(w); });
+      d.phrases.forEach(p => { if (p.length > 1 && p.every(w => have.has(w))) s += 1; });
+      // The category's core noun ("infographic", "dashboard") is the strongest single signal
+      if (d.noun.length && d.noun.every(w => have.has(w))) s += 2;
+      if (s > bestScore) { bestScore = s; best = CATS[i]; }
     });
-    return best;
+    return bestScore >= 1 ? best : null;
   }
 
   function checkTitle(title, cat) {

@@ -8,7 +8,7 @@ Live: https://sarucreatin.github.io/fiverr-seller-intelligence/ (GitHub Pages)
 Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from `main` with `npx wrangler deploy`, no build step). `.assetsignore` keeps PLAN.md and `marketing/` off the Cloudflare site.
 
 ## The offer (v2)
-- **Free toolkit**: Gig Builder + Gig Health Check + Category Intelligence (40 categories)
+- **Free toolkit**: Gig Builder + Gig Health Check + Category Intelligence (80 subcategories, 11 groups)
 - **Gig Makeover — $49/gig (done for you)**: rewritten title/description/tags, repriced packages,
   3 designed gallery images, before/after score. Delivered by the design agency. Requests arrive
   by email through the makeover form on the homepage.
@@ -16,15 +16,30 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
   Launch only once enough anonymous contributions exist.
 
 ## Data strategy
-- **No scraping of Fiverr.** It violates Fiverr's Terms of Service and would put the business at risk.
-- **Category dataset** (`data/categories-*.js`): 40 subcategories across 8 groups, each with keywords,
-  tags, title templates, package structures, extras, FAQs, gallery ideas and tactics. Prices are
-  labeled as suggested starting points everywhere, not market data.
+- **No scraping of Fiverr.** It violates Fiverr's Terms of Service and would put the business at risk. Fiverr also
+  blocks it in practice: an automated visit to fiverr.com/categories (2026-10-01) got a "Press & Hold" bot check.
+  The public site promises this too ("Nothing is scraped from Fiverr", `data.html`).
+- **Category dataset** (`data/categories-1..8.js`): 80 subcategories across 11 groups (Finance, Data and Photography
+  added 2026-10-01), each with keywords, tags, title templates, package structures, extras, FAQs, gallery ideas and
+  tactics. Written as guidance, NOT measured from Fiverr. Every price is labelled as a suggested starting point.
+- **Data trust layer** (`data/meta.js` + `assets/trust.js` + `data.html`): every category shows a label —
+  Guidance → Spot-checked (date) → Early seller data (<20 sellers) → Seller data (20+, medians) — next to its prices
+  in the Builder, Health Check, Category Intelligence and homepage search. `data.html` explains the method publicly,
+  lists all 80 categories with their label (live from `data/meta.js`) and keeps a changelog.
+- **"Is this price right?"** on every category: Too low / About right / Too high + optional Basic price → FormSubmit
+  email ("Price feedback: {category}"). Only category, answer, price and page are sent.
 - **Real benchmarks**: Health Check has an opt-in (off by default) "share anonymously" checkbox that
-  sends only the category and numbers (prices, delivery, revisions, rating, reviews, gallery, response,
+  sends only the category and numbers (prices, delivery, revisions, rating, reviews, gallery, video yes/no, response,
   extras, tag count, score) to FormSubmit → infosahariyaislam@gmail.com. Never titles, descriptions or tags.
-- [ ] When contributions pass ~100/month, move them from email into a real store (Google Sheet via
-      Apps Script, or Supabase) and compute per-category medians to replace the suggested prices.
+- **Monthly spot-check routine** (a person, in a normal browser — never a script):
+  1. Pick ~5 categories (start with the most-used ones and any with "Too low/Too high" feedback).
+  2. Search Fiverr for the category's main keyword; on page 1, note Basic/Standard/Premium prices and Basic delivery
+     of ~10 Level 1–2 gigs.
+  3. If our suggested price is off from the median by more than ~30%, update the category in `data/categories-*.js`.
+  4. Record the date in `data/meta.js` → `checks: { 'category-id': 'YYYY-MM-DD' }` and add a `changelog` line.
+- [ ] When contributions pass ~100/month, move them (and price feedback) from email into a real store (Google Sheet
+      via Apps Script, or Supabase), compute per-category medians, and record them in `data/meta.js` → `benchmarks`.
+      Categories then switch label automatically; replacing the suggested prices with the medians is the next step.
 
 ## Status
 - [x] Gig Builder (`builder.html`) — generates titles, 5 tags, description, 3 packages, extras, FAQ, gallery ideas
@@ -43,7 +58,16 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
       (would need scraping + raises privacy issues); figures are labelled as suggested starting points.
 - [ ] Industry profile → real data: when benchmark contributions allow, replace suggested figures with per-category
       medians ("based on N sellers"). This is the natural core of the paid Growth Intelligence tier.
-- [ ] Optional: one public SEO page per category (40 pages, e.g. "Logo Design on Fiverr: prices, tags and keywords")
+- [x] 80 subcategories + data trust layer (2026-10-01): 40 new subcategories, trust labels everywhere prices appear,
+      "Is this price right?" feedback, public `data.html`. All 80 pass a consistency check: Builder drafts get full
+      title/pricing/description/SEO marks at every seller level and match the Industry profile 8/8.
+- [x] Pricing rule made category-aware (`GigScoring.premiumCap`): Premium may sit up to max(6×, 1.4 × the category's
+      own Premium/Basic ratio) above Basic. Fixes the old contradiction where Builder drafts for e.g. Mobile App
+      Development ($150/$500/$1,200) were marked down by the Health Check.
+- [x] Homepage title checker: IDF-weighted category detection (rare words count more, buyer phrases and the
+      category noun add bonuses, hyphens split). 48/48 realistic seller titles and 314/320 template titles detected;
+      the misses are genuinely ambiguous pairs (e.g. AI agent vs AI chatbot) the user can change in the dropdown.
+- [ ] Optional: one public SEO page per category (80 pages, e.g. "Logo Design on Fiverr: prices, tags and keywords")
       generated from the same profile.
 - [ ] **Decision needed**: pricing vs the market. FivData Pro is $1.99/mo; our Growth Intelligence is $19/mo.
 - [x] Analytics (GoatCounter, site code `gighealthcheck`) on all pages.
@@ -64,7 +88,11 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
 ## Architecture
 - Static HTML/CSS/JS only — no server, no build step. Served by GitHub Pages.
 - `assets/site.css` shared styles · `assets/builder.js` gig generator · `assets/scoring.js` 8-dimension engine
-- `data/categories-1..4.js` the category dataset (loaded as scripts so it also works from `file://`)
+- `data/categories-1..8.js` the category dataset (loaded as scripts so it also works from `file://`); `data/meta.js`
+  its provenance (batches, spot-checks, benchmarks, changelog); `assets/trust.js` the labels + price feedback;
+  `data.html` the public methodology page. New categories must keep the same fields: 6 kw, 6 tags, 4 titles,
+  3 pkgs (prices rising, Standard ≥1.4× and Premium ≥1.8× Basic), 4 extras, 3 FAQs, 3 gallery ideas, 3 tips —
+  and be added to a `batches` date in `data/meta.js`.
 - **Site header** (same on all 7 pages, blog included): logo mark, "Free tools" dropdown with descriptions,
   Guides, Pricing, "Build free" CTA; gliding hover highlight; compacts on scroll with a reading-progress line;
   phones get a full-screen menu and the header hides on scroll down / returns on scroll up. Markup lives in each
@@ -74,7 +102,8 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
 - `assets/industry.js` Industry profile (category benchmark + "You vs. a strong gig"), used by `builder.html` and
   `tool.html`; styles in the "Industry profile" block of `site.css`.
 - `assets/finder.js` homepage quick tools (keyword search + title check), built on the dataset, `builder.js` and
-  `scoring.js`. Title category detection is word-level with light stemming ("edit videos" → Video Editing).
+  `scoring.js`. Title category detection is word-level with light stemming ("edit videos" → Video Editing) and
+  IDF weighting (rare words count more), plus bonuses for whole buyer phrases and the category noun.
 - `assets/motion.js` + the Motion block in `site.css`: sticky glass header, scroll reveals (`data-reveal`,
   `data-stagger`, `data-count`), cursor spotlight (`.spot`), hover lift (`.lift`), result cascades. No libraries.
   Entrances animate `translate`, so `transform` stays free for hovers. Everything is disabled under

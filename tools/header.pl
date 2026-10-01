@@ -11,7 +11,7 @@ my %ICON = (
 my @TOOLS = (
   [builder    => 'builder.html',    'Gig Builder',           'Titles, tags, description and 3 packages, ready to paste', 'Start here'],
   [tool       => 'tool.html',       'Gig Health Check',      'Score your gig and compare it with strong gigs in your category', ''],
-  [categories => 'categories.html', 'Category Intelligence', 'Keywords, tags and starting prices for 40 categories', ''],
+  [categories => 'categories.html', 'Category Intelligence', 'Keywords, tags and starting prices for 80 subcategories', ''],
 );
 # page file => [path prefix, current key]
 my %PAGES = (
@@ -19,6 +19,7 @@ my %PAGES = (
   'builder.html'    => ['', 'builder'],
   'tool.html'       => ['', 'tool'],
   'categories.html' => ['', 'categories'],
+  'data.html'       => ['', ''],
   'blog/gig-title-mistakes.html'                 => ['../', 'guides'],
   'blog/pricing-without-race-to-bottom.html'     => ['../', 'guides'],
   'blog/how-to-write-a-fiverr-gig-description.html' => ['../', 'guides'],
@@ -76,6 +77,7 @@ $mm
     <a class="mm-link" href="${p}index.html#guides">Seller guides</a>
     <a class="mm-link" href="${p}index.html#pricing">Pricing</a>
     <a class="mm-link" href="${p}index.html#makeover">Gig Makeover</a>
+    <a class="mm-link" href="${p}data.html">How our data works</a>
     <a class="btn mm-cta" href="${p}builder.html">Build my gig free →</a>
     <p class="mm-note">Free · No signup · No Fiverr login</p>
   </div>

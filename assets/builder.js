@@ -12,8 +12,21 @@
 
   function roundPrice(n) { return Math.max(5, Math.round(n / 5) * 5); }
 
-  const ACRONYMS = /\b(seo|ai|ui|ux|ppc|ats|ios|smm|va|cv|gpt|pr)\b/g;
-  function prose(tag) { return tag.replace(ACRONYMS, m => m.toUpperCase()); }
+  // Tags are stored lowercase (as on Fiverr); prose() restores brand names and acronyms for sentences
+  const PROPER = {
+    'google sheets': 'Google Sheets', 'google ads': 'Google Ads', 'google maps': 'Google Maps', 'google business profile': 'Google Business Profile',
+    'google my business': 'Google My Business', 'apps script': 'Apps Script', 'power bi': 'Power BI', 'looker studio': 'Looker Studio',
+    'unreal engine': 'Unreal Engine', 'core web vitals': 'Core Web Vitals', 'spark ads': 'Spark Ads',
+    shopify: 'Shopify', wordpress: 'WordPress', woocommerce: 'WooCommerce', youtube: 'YouTube', tiktok: 'TikTok', instagram: 'Instagram',
+    facebook: 'Facebook', linkedin: 'LinkedIn', pinterest: 'Pinterest', amazon: 'Amazon', etsy: 'Etsy', google: 'Google', excel: 'Excel',
+    tableau: 'Tableau', quickbooks: 'QuickBooks', xero: 'Xero', wix: 'Wix', squarespace: 'Squarespace', webflow: 'Webflow', figma: 'Figma',
+    canva: 'Canva', react: 'React', unity: 'Unity', chrome: 'Chrome', firefox: 'Firefox', javascript: 'JavaScript', python: 'Python',
+    langchain: 'LangChain', openai: 'OpenAI', kindle: 'Kindle', photoshop: 'Photoshop', blender: 'Blender', zapier: 'Zapier',
+    pagespeed: 'PageSpeed', gtmetrix: 'GTmetrix', ios: 'iOS'
+  };
+  const PROPER_RE = new RegExp('\\b(' + Object.keys(PROPER).sort((a, b) => b.length - a.length).join('|') + ')\\b', 'g');
+  const ACRONYMS = /\b(seo|ai|ui|ux|ppc|ats|smm|va|cv|gpt|pr|ugc|b2b|sfx|srt|pdf|sql|vba|cms|api|fba|gmb|crm|kpi|cdn|csv|acos|dcf|html5|3d|2d)\b/g;
+  function prose(tag) { return tag.replace(PROPER_RE, m => PROPER[m]).replace(ACRONYMS, m => m.toUpperCase()); }
 
   function fillTitle(template, niche, aud) {
     return template

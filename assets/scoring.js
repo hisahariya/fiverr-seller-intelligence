@@ -36,6 +36,13 @@
     return { key: 'title', label: 'Title Quality', score: clamp(score, 0, 15), max: 15, tips };
   }
 
+  // How far Premium can sit above Basic before it looks disconnected. Category-aware: a $1,200 app
+  // against a $150 Basic is normal, the same jump on a $10 photo edit is not.
+  function premiumCap(cat) {
+    if (!cat) return 6;
+    return Math.max(6, (cat.pkgs[2][0] / cat.pkgs[0][0]) * 1.4);
+  }
+
   function scorePricing(basic, standard, premium, cat) {
     const tips = [];
     let score = 0;
@@ -49,8 +56,9 @@
       if (stdRatio >= 1.4 && premRatio >= 1.8) score += 5;
       else tips.push('Widen the price gap between tiers (Standard ≥1.4x Basic, Premium ≥1.8x Basic) so upgrading feels like an obvious value jump.');
 
-      if (premRatio <= 6) score += 2;
-      else tips.push('Your Premium tier may be priced too far above Basic — buyers can struggle to see the connection.');
+      const cap = premiumCap(cat);
+      if (premRatio <= cap) score += 2;
+      else tips.push(`Your Premium tier is ${premRatio.toFixed(1)}× your Basic price. Above about ${Math.round(cap)}× buyers can struggle to see the connection.`);
     }
 
     if (cat) {
@@ -192,6 +200,6 @@
     ];
   }
 
-  root.GigScoring = { runAudit, DESC_LIMIT };
+  root.GigScoring = { runAudit, premiumCap, DESC_LIMIT };
   if (typeof module !== 'undefined') module.exports = root.GigScoring;
 })(typeof window !== 'undefined' ? window : globalThis);
