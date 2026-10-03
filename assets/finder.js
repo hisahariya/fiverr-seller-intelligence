@@ -55,27 +55,23 @@
 
   // ---------- Result panel ----------
   const result = $('result');
-  const sample = $('sample');
-  const chips = document.querySelectorAll('.hero-visual .float-chip');
+  const scrollMode = () => (window.Motion && Motion.reduce ? 'auto' : 'smooth');
 
   function showResult(html) {
     result.innerHTML = html;
     result.hidden = false;
-    sample.hidden = true;
-    chips.forEach(c => { c.hidden = true; });
-    // On phones the panel sits below the search box, so bring it into view under the pinned header.
+    // The panel sits below the hero, so bring it into view under the pinned header.
     // Measure before the entrance animation starts, since it shifts the panel down while it plays.
     result.classList.remove('show');
     const header = document.querySelector('.site-header');
-    const top = result.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) - 12;
+    const top = result.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) - 16;
     if (window.Motion) Motion.replay(result, 'show');
-    if (window.innerWidth < 900) window.scrollTo({ top, behavior: 'smooth' });
+    window.scrollTo({ top, behavior: scrollMode() });
   }
   function resetResult() {
     result.hidden = true;
     result.innerHTML = '';
-    sample.hidden = false;
-    chips.forEach(c => { c.hidden = false; });
+    $('finder').scrollIntoView({ behavior: scrollMode(), block: 'center' });
   }
 
   function copy(text, btn) {
@@ -97,7 +93,7 @@
     if (btn) copy(btn.dataset.copy, btn);
   });
 
-  const closeBtn = '<button type="button" class="r-close" aria-label="Close and show the sample report">×</button>';
+  const closeBtn = '<button type="button" class="r-close" aria-label="Close results">×</button>';
   const titleRow = t => `<div class="r-title">${esc(t.text)}<span>${t.len} chars</span></div>`;
 
   function showCategory(cat, hit) {

@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How Our Data Works — GigHealthCheck</title>
 <meta name="description" content="Where the keywords, tags and prices on GigHealthCheck come from, how far to trust them today, and how they become real seller data. No scraping, no logins.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 <script>document.documentElement.classList.add('js')</script>
 <script src="assets/motion.js" defer></script>
@@ -32,7 +35,7 @@
   .ways .card p{margin:0;color:var(--muted);font-size:14.5px}
   .never{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px;max-width:760px}
   .never li{display:flex;gap:12px;align-items:flex-start;font-size:15px}
-  .never li::before{content:"✕";flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:rgba(240,80,90,.16);color:var(--bad)}
+  .never li::before{content:"✕";flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--bad-soft);color:var(--bad)}
   .coverage-tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:16px 0 12px}
   .coverage-tools input{max-width:340px}
   .coverage-tools span{font-size:13px;color:var(--muted)}
@@ -58,6 +61,10 @@
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
       <span class="brand-word">Gig<span>Health</span>Check</span>
     </a>
+    <form class="hdr-search" action="categories.html" role="search">
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    </form>
     <nav class="site-nav" aria-label="Main">
       <span class="nav-glide" aria-hidden="true"></span>
       <div class="nav-item has-menu">
@@ -73,14 +80,19 @@
       <a class="nav-link" href="index.html#pricing">Pricing</a>
     </nav>
     <div class="header-actions">
-      <a class="btn header-cta" href="builder.html">Build free <span aria-hidden="true">→</span></a>
+      <a class="btn header-cta" href="builder.html">Build free</a>
       <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
     </div>
   </div>
+  <nav class="cat-strip" aria-label="Categories"><div class="cat-strip-inner"><a href="categories.html?group=Graphics%20%26%20Design" data-group="Graphics &amp; Design">Graphics &amp; Design</a><a href="categories.html?group=Programming%20%26%20Tech" data-group="Programming &amp; Tech">Programming &amp; Tech</a><a href="categories.html?group=Digital%20Marketing" data-group="Digital Marketing">Digital Marketing</a><a href="categories.html?group=Video%20%26%20Animation" data-group="Video &amp; Animation">Video &amp; Animation</a><a href="categories.html?group=Writing%20%26%20Translation" data-group="Writing &amp; Translation">Writing &amp; Translation</a><a href="categories.html?group=Music%20%26%20Audio" data-group="Music &amp; Audio">Music &amp; Audio</a><a href="categories.html?group=Business" data-group="Business">Business</a><a href="categories.html?group=Finance" data-group="Finance">Finance</a><a href="categories.html?group=AI%20Services" data-group="AI Services">AI Services</a><a href="categories.html?group=Data" data-group="Data">Data</a><a href="categories.html?group=Photography" data-group="Photography">Photography</a></div></nav>
   <div class="scroll-progress" aria-hidden="true"><i></i></div>
 </header>
 <div class="mobile-menu" id="mobile-menu">
   <div class="mm-inner">
+    <form class="mm-search" action="categories.html" role="search">
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    </form>
     <p class="mm-label">Free tools</p>
     <a class="mm-tool" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
     <a class="mm-tool" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
@@ -183,7 +195,57 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.</div>
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <div>
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="categories.html?group=Graphics%20%26%20Design">Graphics &amp; Design</a></li>
+          <li><a href="categories.html?group=Programming%20%26%20Tech">Programming &amp; Tech</a></li>
+          <li><a href="categories.html?group=Digital%20Marketing">Digital Marketing</a></li>
+          <li><a href="categories.html?group=Video%20%26%20Animation">Video &amp; Animation</a></li>
+          <li><a href="categories.html?group=Writing%20%26%20Translation">Writing &amp; Translation</a></li>
+          <li><a href="categories.html?group=Music%20%26%20Audio">Music &amp; Audio</a></li>
+          <li><a href="categories.html?group=Business">Business</a></li>
+          <li><a href="categories.html?group=Finance">Finance</a></li>
+          <li><a href="categories.html">All 80 subcategories →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Free tools</h3>
+        <ul>
+          <li><a href="builder.html">Gig Builder</a></li>
+          <li><a href="tool.html">Gig Health Check</a></li>
+          <li><a href="categories.html">Category Intelligence</a></li>
+          <li><a href="index.html#finder">Quick title check</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Seller guides</h3>
+        <ul>
+          <li><a href="blog/gig-title-mistakes.html">Gig title mistakes</a></li>
+          <li><a href="blog/pricing-without-race-to-bottom.html">Pricing without racing to the bottom</a></li>
+          <li><a href="blog/how-to-write-a-fiverr-gig-description.html">Writing a gig description</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="data.html">How our data works</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#makeover">Gig Makeover</a></li>
+          <li><a href="index.html#capture">Growth Intelligence waitlist</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <a href="index.html" class="brand" aria-label="GigHealthCheck home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+      <span class="brand-word">Gig<span>Health</span>Check</span>
+      </a>
+      <p>© 2026 GigHealthCheck. An independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.</p>
+    </div>
+  </div>
 </footer>
 
 <script src="data/categories-1.js"></script>

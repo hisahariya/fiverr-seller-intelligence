@@ -10,11 +10,14 @@
 
     // Compact + shadow once scrolled, reading-progress line, and on phones tuck away while scrolling down
     const progress = header.querySelector('.scroll-progress i');
+    // Homepage: the header search stays hidden while the big hero search is on screen
+    const heroSearch = document.body.classList.contains('home') && document.getElementById('finder');
     let lastY = root.scrollY;
     let ticking = false;
     const onScroll = () => {
       const y = root.scrollY;
       header.classList.toggle('scrolled', y > 8);
+      if (heroSearch) header.classList.toggle('show-search', heroSearch.getBoundingClientRect().bottom < header.offsetHeight);
       const max = doc.scrollHeight - root.innerHeight;
       if (progress) progress.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
       if (small() && !doc.classList.contains('menu-open') && y > 240 && y > lastY + 4) header.classList.add('tucked');
@@ -26,6 +29,16 @@
     root.addEventListener('resize', onScroll);
     header.addEventListener('focusin', () => header.classList.remove('tucked'));
     onScroll();
+
+    // Category bar: fade its right edge only while more links are hidden off to the right
+    const strip = header.querySelector('.cat-strip-inner');
+    if (strip) {
+      const fade = () => strip.classList.toggle('more', strip.scrollWidth - strip.clientWidth - strip.scrollLeft > 2);
+      strip.addEventListener('scroll', fade, { passive: true });
+      root.addEventListener('resize', fade);
+      fade();
+      if (document.fonts) document.fonts.ready.then(fade);
+    }
 
     // Hover highlight that glides between nav links
     const nav = header.querySelector('.site-nav');
@@ -132,17 +145,6 @@
       if (e.isIntersecting) { reveal(e.target); io.unobserve(e.target); }
     }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
     targets.forEach(el => io.observe(el));
-  }
-
-  // Cursor spotlight on .spot cards
-  if (!reduce) {
-    document.addEventListener('pointermove', e => {
-      const card = e.target.closest && e.target.closest('.spot');
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    }, { passive: true });
   }
 
   // Restart a CSS entrance animation on an element (e.g. after re-rendering results)

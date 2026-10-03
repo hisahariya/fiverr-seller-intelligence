@@ -5,27 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Category Intelligence — Fiverr Keywords, Tags & Pricing</title>
 <meta name="description" content="Keywords, tags, package structures, extras and winning tactics for 80 Fiverr subcategories. Free research for Fiverr sellers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 <script>document.documentElement.classList.add('js')</script>
 <script src="assets/motion.js" defer></script>
 <style>
-  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-  .filters input{flex:1;min-width:200px}
-  .group-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
-  .group-chips button{background:var(--panel-2);border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
-  .group-chips button.on{border-color:var(--accent);color:var(--text)}
-  .cat-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .filters input{flex:1;min-width:200px;height:50px;font-size:16px}
+  .group-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .group-chips button{background:#fff;border:1px solid var(--border-strong);color:var(--text);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
+  .group-chips button:hover{border-color:var(--text)}
+  .group-chips button.on{background:var(--text);border-color:var(--text);color:#fff}
+  .group-chips button small{font-size:12.5px;opacity:.6;margin-left:3px}
+  @media (max-width:600px){.group-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.group-chips::-webkit-scrollbar{display:none}.group-chips button{flex:none}}
+  .cat-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
   @media (max-width:860px){.cat-list{grid-template-columns:minmax(0,1fr)}}
-  .cat-card h2{font-size:17px;margin:0}
-  .cat-card .group{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-  .price-row{display:flex;gap:8px;margin:12px 0}
-  .price-row div{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
-  .price-row b{display:block;font-size:17px}
+  .cat-card{scroll-margin-top:140px}
+  .cat-card h2{font-size:19px;margin:0}
+  .cat-card .group{font-size:12.5px;color:var(--accent-2);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .price-row{display:flex;gap:8px;margin:14px 0 12px}
+  .price-row div{flex:1;background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius);padding:9px;text-align:center}
+  .price-row b{display:block;font-size:18px}
   .price-row span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-  details{margin-top:12px;border-top:1px solid var(--border);padding-top:10px}
-  summary{cursor:pointer;font-size:14px;font-weight:600}
-  .cat-card h4{font-size:13px;color:var(--muted);margin:14px 0 6px;font-weight:600}
-  .count{color:var(--muted);font-size:14px;margin-bottom:12px}
+  details{margin-top:14px;border-top:1px solid var(--border);padding-top:12px}
+  summary{cursor:pointer;font-size:14.5px;font-weight:700}
+  .cat-card h4{font-size:12.5px;color:var(--muted);margin:16px 0 8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .count{color:var(--muted);font-size:14.5px;margin-bottom:14px}
+  .count b{color:var(--text)}
+  .empty .btn{margin-top:12px}
   .cat-card .trust-line{margin-top:0}
   details.pc-wrap{margin-top:6px;border-top:0;padding-top:0}
   .pc-wrap summary{display:inline-block;list-style:none;font-size:12.5px;font-weight:600;color:var(--accent-2)}
@@ -42,6 +51,10 @@
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
       <span class="brand-word">Gig<span>Health</span>Check</span>
     </a>
+    <form class="hdr-search" action="categories.html" role="search">
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    </form>
     <nav class="site-nav" aria-label="Main">
       <span class="nav-glide" aria-hidden="true"></span>
       <div class="nav-item has-menu">
@@ -57,14 +70,19 @@
       <a class="nav-link" href="index.html#pricing">Pricing</a>
     </nav>
     <div class="header-actions">
-      <a class="btn header-cta" href="builder.html">Build free <span aria-hidden="true">→</span></a>
+      <a class="btn header-cta" href="builder.html">Build free</a>
       <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
     </div>
   </div>
+  <nav class="cat-strip" aria-label="Categories"><div class="cat-strip-inner"><a href="categories.html?group=Graphics%20%26%20Design" data-group="Graphics &amp; Design">Graphics &amp; Design</a><a href="categories.html?group=Programming%20%26%20Tech" data-group="Programming &amp; Tech">Programming &amp; Tech</a><a href="categories.html?group=Digital%20Marketing" data-group="Digital Marketing">Digital Marketing</a><a href="categories.html?group=Video%20%26%20Animation" data-group="Video &amp; Animation">Video &amp; Animation</a><a href="categories.html?group=Writing%20%26%20Translation" data-group="Writing &amp; Translation">Writing &amp; Translation</a><a href="categories.html?group=Music%20%26%20Audio" data-group="Music &amp; Audio">Music &amp; Audio</a><a href="categories.html?group=Business" data-group="Business">Business</a><a href="categories.html?group=Finance" data-group="Finance">Finance</a><a href="categories.html?group=AI%20Services" data-group="AI Services">AI Services</a><a href="categories.html?group=Data" data-group="Data">Data</a><a href="categories.html?group=Photography" data-group="Photography">Photography</a></div></nav>
   <div class="scroll-progress" aria-hidden="true"><i></i></div>
 </header>
 <div class="mobile-menu" id="mobile-menu">
   <div class="mm-inner">
+    <form class="mm-search" action="categories.html" role="search">
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    </form>
     <p class="mm-label">Free tools</p>
     <a class="mm-tool" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
     <a class="mm-tool" href="tool.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span><span><b>Gig Health Check</b><small>Score your gig and compare it with strong gigs in your category</small></span></a>
@@ -95,7 +113,57 @@
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">Independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd. · <a href="data.html">How our data works</a></div>
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <div>
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="categories.html?group=Graphics%20%26%20Design">Graphics &amp; Design</a></li>
+          <li><a href="categories.html?group=Programming%20%26%20Tech">Programming &amp; Tech</a></li>
+          <li><a href="categories.html?group=Digital%20Marketing">Digital Marketing</a></li>
+          <li><a href="categories.html?group=Video%20%26%20Animation">Video &amp; Animation</a></li>
+          <li><a href="categories.html?group=Writing%20%26%20Translation">Writing &amp; Translation</a></li>
+          <li><a href="categories.html?group=Music%20%26%20Audio">Music &amp; Audio</a></li>
+          <li><a href="categories.html?group=Business">Business</a></li>
+          <li><a href="categories.html?group=Finance">Finance</a></li>
+          <li><a href="categories.html">All 80 subcategories →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Free tools</h3>
+        <ul>
+          <li><a href="builder.html">Gig Builder</a></li>
+          <li><a href="tool.html">Gig Health Check</a></li>
+          <li><a href="categories.html">Category Intelligence</a></li>
+          <li><a href="index.html#finder">Quick title check</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Seller guides</h3>
+        <ul>
+          <li><a href="blog/gig-title-mistakes.html">Gig title mistakes</a></li>
+          <li><a href="blog/pricing-without-race-to-bottom.html">Pricing without racing to the bottom</a></li>
+          <li><a href="blog/how-to-write-a-fiverr-gig-description.html">Writing a gig description</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="data.html">How our data works</a></li>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="index.html#makeover">Gig Makeover</a></li>
+          <li><a href="index.html#capture">Growth Intelligence waitlist</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <a href="index.html" class="brand" aria-label="GigHealthCheck home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+      <span class="brand-word">Gig<span>Health</span>Check</span>
+      </a>
+      <p>© 2026 GigHealthCheck. An independent tool for Fiverr sellers. Not affiliated with or endorsed by Fiverr International Ltd.</p>
+    </div>
+  </div>
 </footer>
 
 <script src="data/categories-1.js"></script>
@@ -111,7 +179,13 @@
 <script>
 const CATS = window.CATEGORIES;
 const $ = id => document.getElementById(id);
-let activeGroup = 'All';
+const GROUPS = [...new Set(CATS.map(c => c.group))];
+// The header search and category bar link here with ?q= and ?group=
+const params = new URLSearchParams(location.search);
+let activeGroup = GROUPS.includes(params.get('group')) ? params.get('group') : 'All';
+if (params.get('q')) $('search').value = params.get('q');
+// Everything a search can match, per category
+const HAY = Object.fromEntries(CATS.map(c => [c.id, [c.name, c.group, c.noun, ...c.kw, ...c.tags].join(' | ').toLowerCase()]));
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -122,7 +196,7 @@ const T = window.DataTrust;
 function card(c) {
   const [b, s, p] = c.pkgs;
   return `
-  <article class="card cat-card spot" id="${c.id}">
+  <article class="card cat-card" id="${c.id}">
     <div class="group">${esc(c.group)}</div>
     <h2>${esc(c.name)}</h2>
     <div class="price-row">
@@ -149,30 +223,92 @@ function card(c) {
   </article>`;
 }
 
-function render() {
-  const q = $('search').value.trim().toLowerCase();
-  const list = CATS.filter(c => activeGroup === 'All' || c.group === activeGroup).filter(c => {
-    if (!q) return true;
-    return [c.name, c.group, ...c.kw, ...c.tags].some(s => s.toLowerCase().includes(q));
+const STOP = new Set('i will a an the for and or to of in on with my your you me'.split(' '));
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// Match at the start of a word, so "ai" finds "AI agents" but not "email"
+const atWordStart = (hay, w) => new RegExp('(^|[^a-z0-9])' + reEsc(w)).test(hay);
+
+// Categories in group g that match the search, best first. Normally every word must match
+// (filler words like "for" are skipped); if nothing matches them all, show the closest partial matches.
+function found(g, q) {
+  const pool = CATS.filter(c => g === 'All' || c.group === g);
+  if (!q) return { list: pool, partial: false };
+  const words = q.split(' ').filter(w => w && !STOP.has(w));
+  const scored = pool.map(c => {
+    const name = c.name.toLowerCase(), hay = HAY[c.id];
+    let s = atWordStart(name, q) ? 100 : atWordStart(hay, q) ? 50 : 0, hits = 0;
+    words.forEach(w => {
+      if (atWordStart(name, w)) { s += 10; hits++; } else if (atWordStart(hay, w)) { s += 4; hits++; }
+    });
+    return { c, s, hits };
   });
-  $('count').textContent = `${list.length} of ${CATS.length} categories`;
-  $('list').innerHTML = list.length ? list.map(card).join('') : '<div class="empty">No categories match that search.</div>';
+  const full = scored.filter(x => x.s >= 50 || (words.length && x.hits === words.length));
+  const pick = full.length ? full : scored.filter(x => x.hits > 0);
+  return { list: pick.sort((a, b) => b.s - a.s).map(x => x.c), partial: !full.length };
+}
+
+function render() {
+  const q = $('search').value.trim().toLowerCase().replace(/\s+/g, ' ');
+  const { list, partial } = found(activeGroup, q);
+  $('count').innerHTML = `<b>${list.length}</b> of ${CATS.length} categories` + (activeGroup === 'All' ? '' : ` in ${esc(activeGroup)}`) + (q ? ` ${partial && list.length ? 'partly matching' : 'matching'} “${esc(q)}”` : '');
+  if (list.length) { $('list').innerHTML = list.map(card).join(''); return; }
+  // Nothing in this group: offer the whole catalogue if the search matches elsewhere
+  const elsewhere = activeGroup === 'All' ? 0 : found('All', q).list.length;
+  $('list').innerHTML = elsewhere
+    ? `<div class="empty">Nothing in ${esc(activeGroup)} matches that search, but ${elsewhere} categor${elsewhere === 1 ? 'y' : 'ies'} elsewhere do${elsewhere === 1 ? 'es' : ''}.<br><button type="button" class="btn btn-sm" id="searchAll">Search all categories</button></div>`
+    : `<div class="empty">No categories match that search.<br><button type="button" class="btn btn-ghost btn-sm" id="showAll">Show all ${CATS.length} categories</button></div>`;
 }
 
 function renderGroups() {
-  const groups = ['All', ...new Set(CATS.map(c => c.group))];
-  $('groups').innerHTML = groups.map(g => `<button type="button" class="${g === activeGroup ? 'on' : ''}" data-group="${esc(g)}">${esc(g)}</button>`).join('');
+  const n = g => g === 'All' ? CATS.length : CATS.filter(c => c.group === g).length;
+  $('groups').innerHTML = ['All', ...GROUPS].map(g => `<button type="button" class="${g === activeGroup ? 'on' : ''}" data-group="${esc(g)}" aria-pressed="${g === activeGroup}">${esc(g)} <small>${n(g)}</small></button>`).join('');
+  // Underline the same group in the header's category bar
+  document.querySelectorAll('.cat-strip a').forEach(a => a.classList.toggle('on', a.dataset.group === activeGroup));
+  // Both rows can scroll sideways (the chips do on phones): keep the selected item in view
+  const strip = document.querySelector('.cat-strip-inner');
+  showInRow(strip, strip && strip.querySelector('a.on'));
+  showInRow($('groups'), $('groups').querySelector('.on'));
+}
+
+// Centre an item in a sideways-scrolling row if it's hidden or under the row's faded edge
+function showInRow(row, item) {
+  if (!row || !item || row.scrollWidth <= row.clientWidth) return;
+  const r = row.getBoundingClientRect(), i = item.getBoundingClientRect();
+  if (i.left < r.left || i.right > r.right - r.width * 0.1) row.scrollLeft += i.left - r.left - (r.width - i.width) / 2;
+}
+
+// Keep the address bar in step, so a filtered view can be shared or bookmarked
+function syncUrl() {
+  const p = new URLSearchParams();
+  if (activeGroup !== 'All') p.set('group', activeGroup);
+  const q = $('search').value.trim();
+  if (q) p.set('q', q);
+  history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
+}
+
+function setGroup(g, clearSearch) {
+  activeGroup = g;
+  if (clearSearch) $('search').value = '';
+  $('list').classList.add('cascade');
+  renderGroups(); render(); syncUrl();
 }
 
 $('groups').addEventListener('click', e => {
   const b = e.target.closest('button');
-  if (!b) return;
-  activeGroup = b.dataset.group;
-  $('list').classList.add('cascade');
-  renderGroups(); render();
+  if (b) setGroup(b.dataset.group);
+});
+// On this page the header's category bar filters in place instead of reloading
+document.querySelectorAll('.cat-strip a').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  setGroup(a.dataset.group, true);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}));
+$('list').addEventListener('click', e => {
+  if (e.target.id === 'showAll') setGroup('All', true);
+  else if (e.target.id === 'searchAll') setGroup('All');
 });
 // Typing re-renders on every key, so skip the entrance animation there
-$('search').addEventListener('input', () => { $('list').classList.remove('cascade'); render(); });
+$('search').addEventListener('input', () => { $('list').classList.remove('cascade'); render(); syncUrl(); });
 
 renderGroups(); render();
 if (location.hash) {
