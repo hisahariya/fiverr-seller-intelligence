@@ -83,6 +83,7 @@
   <div class="wrap">
     <h1>Gig Builder</h1>
     <p class="sub">Pick your category and niche. You'll get titles, tags, a full description, 3 packages, extras and FAQs, ready to paste into Fiverr. Everything runs in your browser.</p>
+    <p class="saved-note" data-saved-note hidden></p>
 
     <div class="grid-2 with-industry">
       <div class="card">
@@ -181,6 +182,7 @@
 <script src="data/categories-8.js"></script>
 <script src="data/meta.js"></script>
 <script src="assets/trust.js"></script>
+<script src="assets/context.js"></script>
 <script src="assets/builder.js"></script>
 <script src="assets/industry.js"></script>
 <script>
@@ -295,6 +297,8 @@ function build(animate) {
   render(GigBuilder.buildGig(cat, { niche: $('niche').value, aud: $('aud').value, level: $('level').value }));
   // Industry profile for this category, with the draft's prices marked on the ladder
   IndustryProfile.show($('industry'), IndustryProfile.builderHtml(cat, current, $('level').value), animate);
+  // Remember what the seller is working on, so the other tools start from it
+  SellerContext.explore({ cat: cat.id, niche: $('niche').value.trim(), aud: $('aud').value.trim(), level: $('level').value });
   const url = new URL(location.href);
   url.searchParams.set('cat', cat.id);
   history.replaceState(null, '', url);
@@ -319,17 +323,23 @@ $('output').addEventListener('click', e => {
   if (btn.id === 'toHealth') {
     const g = current;
     const draft = {
-      title: g.titles[0].text, category: g.category.id, tags: g.tags.join(', '), description: g.description,
+      title: g.titles[0].text, cat: g.category.id, tags: g.tags.join(', '), description: g.description,
       basicPrice: g.packages[0].price, standardPrice: g.packages[1].price, premiumPrice: g.packages[2].price,
       deliveryDays: g.packages[0].days, extrasCount: g.extras.length
     };
-    try { localStorage.setItem('ghc-draft', JSON.stringify(draft)); } catch (err) {}
+    // A fresh gig for the check; the seller's rating, reviews and response time carry over
+    SellerContext.updateGig(draft, 'builder', true);
     location.href = 'tool.html?from=builder';
   }
 });
 
 populateCategories();
-const preset = new URLSearchParams(location.search).get('cat');
+// Start from the link's category (?cat=), else from what the seller last worked on
+const saved = SellerContext.get().explore || {};
+const preset = new URLSearchParams(location.search).get('cat') || saved.cat;
+// Niche and audience belong to one category; the seller level applies everywhere
+if (preset === saved.cat) { $('niche').value = saved.niche || ''; $('aud').value = saved.aud || ''; }
+if (saved.level && $('level').querySelector('option[value="' + saved.level + '"]')) $('level').value = saved.level;
 if (preset && byId[preset]) { $('cat').value = preset; build(true); }
 </script>
 <script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

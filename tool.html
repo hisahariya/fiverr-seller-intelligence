@@ -117,6 +117,7 @@
   <div class="wrap">
     <h1>Gig Health Check</h1>
     <p class="sub">Paste in your gig's real details and pick your category. You'll get a score, specific fixes, and a side-by-side with strong gigs in your category. It all runs in your browser, and nothing is sent anywhere unless you choose to share your numbers anonymously.</p>
+    <p class="saved-note" data-saved-note hidden></p>
 
     <div class="banner" id="draftBanner">Draft loaded from the Gig Builder. Add your rating, reviews, gallery and response time to finish the check.</div>
 
@@ -281,6 +282,7 @@
 <script src="data/categories-8.js"></script>
 <script src="data/meta.js"></script>
 <script src="assets/trust.js"></script>
+<script src="assets/context.js"></script>
 <script src="assets/scoring.js"></script>
 <script src="assets/industry.js"></script>
 <script>
@@ -304,17 +306,40 @@ function populateCategories() {
     ).join('') + '<option value="other">Other / not listed</option>';
 }
 
-function loadDraft() {
-  if (new URLSearchParams(location.search).get('from') !== 'builder') return;
-  let draft = null;
-  try { draft = JSON.parse(localStorage.getItem('ghc-draft') || 'null'); } catch (e) {}
-  if (!draft) return;
-  ['title', 'tags', 'description', 'basicPrice', 'standardPrice', 'premiumPrice', 'deliveryDays', 'extrasCount']
-    .forEach(k => { if (draft[k] !== undefined) $(k).value = draft[k]; });
-  if (byId[draft.category]) $('category').value = draft.category;
+// Fill the form from the seller's saved gig: what they entered last time, a title they checked on the
+// homepage, or a Builder draft they sent here. Fields they already typed into are left alone.
+function loadSaved() {
+  try { localStorage.removeItem('ghc-draft'); } catch (e) {} // the old one-off Builder hand-off
+  if (new URLSearchParams(location.search).get('from')) history.replaceState(null, '', location.pathname);
+  const { gig, explore } = SellerContext.get();
+  const cat = (gig && gig.cat) || (explore && explore.cat);
+  if (byId[cat] && !$('category').value) $('category').value = cat;
+  if (!gig) return;
+  let filled = 0;
+  SellerContext.GIG_FIELDS.forEach(k => {
+    if (k === 'cat' || gig[k] === undefined) return;
+    if (k === 'hasVideo') { $(k).checked = !!gig[k]; return; }
+    if (!$(k).value) { $(k).value = gig[k]; filled++; }
+  });
+  if (!filled) return;
+  $('draftBanner').textContent = gig.source === 'builder'
+    ? 'Draft loaded from the Gig Builder. Add your rating, reviews, gallery and response time to finish the check.'
+    : gig.source === 'title' && filled === 1
+      ? 'We brought over the title you checked on the homepage. Add the rest of your gig to get a full score.'
+      : 'We filled in what you entered last time, so you can pick up where you left off.';
   $('draftBanner').style.display = 'block';
-  history.replaceState(null, '', location.pathname);
 }
+
+// Save as the seller types, so nothing is lost when they move to another tool and come back
+function saveForm() {
+  const gig = { cat: byId[$('category').value] ? $('category').value : undefined, hasVideo: $('hasVideo').checked };
+  SellerContext.GIG_FIELDS.forEach(k => { if (k !== 'cat' && k !== 'hasVideo') gig[k] = $(k).value.trim(); });
+  SellerContext.saveGig(gig, 'health');
+  if (gig.cat) SellerContext.explore({ cat: gig.cat });
+}
+let saveTimer = 0;
+$('auditForm').addEventListener('input', e => { if (e.target.id === 'share') return; clearTimeout(saveTimer); saveTimer = setTimeout(saveForm, 300); });
+$('auditForm').addEventListener('change', e => { if (e.target.id !== 'share') saveForm(); });
 
 function renderResults(dims, cat) {
   const total = dims.reduce((s, d) => s + d.score, 0);
@@ -430,7 +455,7 @@ $('auditForm').addEventListener('submit', e => {
 });
 
 populateCategories();
-loadDraft();
+loadSaved();
 </script>
 <script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

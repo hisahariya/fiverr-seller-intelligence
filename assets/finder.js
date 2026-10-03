@@ -145,8 +145,10 @@
     setActive(0);
   }
   function note(id, text) { const n = $(id); n.textContent = text; n.hidden = !text; }
+  const Ctx = window.SellerContext;
   function pick(r) {
     closeList();
+    if (Ctx) Ctx.explore({ cat: r.c.id });
     input.value = r.c.name;
     note('kwNote', '');
     showCategory(r.c, r.hit);
@@ -222,6 +224,13 @@
   }
 
   function checkTitle(title, cat) {
+    // The checked title becomes part of the seller's gig, so the Health Check starts from it.
+    // A quick check never wipes a fuller gig saved under another category (detection can guess wrong).
+    if (Ctx) {
+      const g = Ctx.get().gig;
+      const full = g && Object.keys(g).some(k => !['cat', 'title', 'source', 'rating', 'reviewCount', 'responseTime'].includes(k));
+      if (!full || !cat || !g.cat || g.cat === cat.id) Ctx.updateGig({ title, cat: cat ? cat.id : undefined }, 'title');
+    }
     const dim = GigScoring.runAudit({ title, tags: '', description: '', basicPrice: 0, standardPrice: 0, premiumPrice: 0 }, cat)
       .find(d => d.key === 'title');
     const pct = Math.round(dim.score / dim.max * 100);
@@ -246,6 +255,10 @@
     if (window.Motion) Motion.countUp($('titleNum'), pct, 900);
     $('titleCat').addEventListener('change', e => checkTitle(title, byId[e.target.value] || null));
   }
+
+  // A title checked earlier is ready to re-check
+  const savedGig = Ctx && Ctx.get().gig;
+  if (savedGig && savedGig.title) $('titleInput').value = savedGig.title;
 
   $('titleForm').addEventListener('submit', e => {
     e.preventDefault();

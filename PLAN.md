@@ -86,6 +86,17 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
       UX: live category suggestions in the header search (keyboard combobox, picks open `categories.html#id`),
       `/` jumps to search, the categories page reacts to `#id` changes, Builder titles use the full width on phones.
       v2 is tagged `v2-fiverr`.
+- [x] **Task-first entry + shared seller memory (2026-10-03)**. Why: sellers arrive with different problems, so a
+      clear task choice should cut navigation and typing. Homepage "What do you need today?" offers four one-click
+      routes in sellers' own words (new gig → Builder, no orders → Health Check, deciding what to sell → Category
+      Intelligence, just the title → title check) plus the Makeover; no questionnaire, no signup. `assets/context.js`
+      (`SellerContext`) keeps the work in progress in localStorage only (`ghc-context-v1`): `explore` (category,
+      niche, audience, level) and `gig` (the Health Check fields). Builder opens on the saved category and level;
+      "Score this draft" starts a fresh gig but keeps rating/reviews/response time; Health Check refills and saves
+      as you type; a homepage title check feeds the gig but never wipes a fuller gig in another category. Returning
+      sellers get "Pick up where you left off"; every tool page shows "saved in this browser only · Clear".
+      Completion test: a seller finds the right tool without coaching, and what they typed survives moving between
+      tools (verified: homepage → Builder → Health Check → elsewhere → back).
 - [ ] Optional: one public SEO page per category (80 pages, e.g. "Logo Design on Fiverr: prices, tags and keywords")
       generated from the same profile.
 - [ ] **Decision needed**: pricing vs the market. FivData Pro is $1.99/mo; our Growth Intelligence is $19/mo.

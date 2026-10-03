@@ -107,14 +107,33 @@
   .pv-tiers span{font-size:11.5px;color:var(--muted)}
   .pv-tiers b{display:block;font-size:17px;color:var(--text);letter-spacing:-.01em}
 
-  /* ---------- At a glance ---------- */
-  .stats{border-block:1px solid var(--border);background:var(--bg-soft)}
-  .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
-  .stats-grid>div{padding:28px 0 28px 28px;border-left:1px solid var(--border)}
-  .stats-grid>div:first-child{border-left:0;padding-left:0}
-  .stats-grid b{display:block;font-size:clamp(28px,3vw,36px);font-weight:700;letter-spacing:-.035em;line-height:1.1;font-variant-numeric:tabular-nums}
-  .stats-grid span{display:block;margin-top:4px;font-size:14px;color:var(--muted)}
-  @media (max-width:760px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats-grid>div{padding:20px 0 20px 18px}.stats-grid>div:nth-child(odd){border-left:0;padding-left:0}.stats-grid>div:nth-child(n+3){border-top:1px solid var(--border)}}
+  /* ---------- Task chooser ---------- */
+  .start{border-block:1px solid var(--border);background:var(--bg-soft);padding:48px 0 52px}
+  .start-head{display:flex;justify-content:space-between;align-items:flex-end;gap:8px 32px;flex-wrap:wrap;margin-bottom:22px}
+  .start-head h2{margin:0;font-size:clamp(24px,2.6vw,30px);letter-spacing:-.03em}
+  .start-head p{margin:0;color:var(--muted);font-size:15px}
+  .start-head p b{color:var(--text);font-weight:600}
+  .tasks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  @media (max-width:1000px){.tasks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .task{display:flex;flex-direction:column;gap:14px;padding:20px;background:#fff;border:1px solid var(--border);border-radius:16px;color:var(--text);text-decoration:none;box-shadow:var(--shadow-xs);transition:border-color .2s,box-shadow .25s var(--ease),transform .25s var(--ease)}
+  .task:hover{border-color:var(--accent-line);box-shadow:var(--shadow-2);transform:translateY(-2px)}
+  .task-ic{width:40px;height:40px;flex:none;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent-2)}
+  .task-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .task-txt{display:flex;flex-direction:column;gap:6px;flex:1}
+  .task b{font-size:16.5px;font-weight:600;letter-spacing:-.015em;line-height:1.3}
+  .task small{font-size:14px;color:var(--muted);line-height:1.5}
+  .task-go{margin-top:auto;padding-top:6px;font-size:13.5px;font-weight:600;color:var(--accent-2)}
+  .task:hover .task-go{text-decoration:underline}
+  /* Phones: compact rows, icon beside the text */
+  @media (max-width:560px){.tasks{grid-template-columns:minmax(0,1fr);gap:10px}.task{flex-direction:row;align-items:flex-start;padding:16px}.task-go{display:none}}
+  .resume{display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap;margin-bottom:16px;padding:14px 16px;background:#fff;border:1px solid var(--accent-line);border-left:4px solid var(--accent);border-radius:14px;box-shadow:var(--shadow-xs)}
+  .resume[hidden]{display:none}
+  .resume-txt{flex:1 1 280px;min-width:0;font-size:15px;color:var(--muted)}
+  .resume-txt b{color:var(--text);font-weight:600}
+  .resume-acts{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap}
+  .resume-clear{font:inherit;font-size:14px;font-weight:600;color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .resume-clear:hover{color:var(--text)}
+  .start-alt{margin:18px 0 0;font-size:14.5px;color:var(--muted)}
 
   /* ---------- Results (search + title check) ---------- */
   .results .wrap{padding-top:32px}
@@ -416,7 +435,7 @@
             <button class="btn sb-go" type="submit">Check title</button>
           </form>
           <div class="finder-note" id="titleNote" hidden></div>
-          <div class="try">Checks length, the "I will" format, buyer keywords and spammy caps. Nothing is saved.</div>
+          <div class="try">Checks length, the "I will" format, buyer keywords and spammy caps. Saved in this browser only.</div>
         </div>
       </div>
 
@@ -456,13 +475,33 @@
   </div>
 </section>
 
-<!-- At a glance -->
-<section class="stats" aria-label="At a glance">
-  <div class="wrap stats-grid">
-    <div><b id="catCount">80</b><span>Fiverr subcategories covered</span></div>
-    <div><b id="kwCount">600+</b><span>buyer keywords mapped</span></div>
-    <div><b>8</b><span>growth factors in every check</span></div>
-    <div><b>$0</b><span>free forever, no signup</span></div>
+<!-- ============ TASK CHOOSER: one click to the right tool, no questionnaire ============ -->
+<section class="start" id="start" aria-labelledby="start-h">
+  <div class="wrap">
+    <div class="start-head">
+      <h2 id="start-h">What do you need today?</h2>
+      <p>One click, no signup. Covers <b id="catCount">80</b> Fiverr subcategories and <b id="kwCount">600+</b> buyer keywords.</p>
+    </div>
+    <div class="resume" id="resume" hidden></div>
+    <div class="tasks">
+      <a class="task" href="builder.html" data-task="build">
+        <span class="task-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span>
+        <span class="task-txt"><b>I'm starting a new gig</b><small>Get a ready-to-paste title, tags, description and 3 priced packages.</small><span class="task-go">Gig Builder →</span></span>
+      </a>
+      <a class="task" href="tool.html" data-task="check">
+        <span class="task-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></span>
+        <span class="task-txt"><b>My gig isn't getting orders</b><small>Find out what's holding it back and exactly what to fix.</small><span class="task-go">Gig Health Check →</span></span>
+      </a>
+      <a class="task" href="categories.html" data-task="research">
+        <span class="task-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+        <span class="task-txt"><b>I'm deciding what to sell</b><small>Compare keywords, prices and extras across 80 subcategories.</small><span class="task-go">Category Intelligence →</span></span>
+      </a>
+      <a class="task" href="#finder" data-tab="title">
+        <span class="task-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7V5h14v2M12 5v14M9 19h6"/></svg></span>
+        <span class="task-txt"><b>I just want to check my title</b><small>Score it and get stronger versions in seconds.</small><span class="task-go">Title check →</span></span>
+      </a>
+    </div>
+    <p class="start-alt">Rather hand it off? <a href="#makeover">Get a Gig Makeover</a> and we'll rebuild your gig for you.</p>
   </div>
 </section>
 
@@ -611,7 +650,7 @@
         </div>
         <div class="promise">
           <span class="p-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
-          <div><b>Your text stays on your device</b><span>Titles, descriptions and tags are checked in your browser. Sharing your numbers is optional and off by default. <a href="data.html">How our data works →</a></span></div>
+          <div><b>Your text stays on your device</b><span>Titles, descriptions and tags are checked in your browser, and your work is remembered only in this browser so it carries between tools (clear it any time). Sharing your numbers is optional and off by default. <a href="data.html">How our data works →</a></span></div>
         </div>
       </div>
     </div>
@@ -829,6 +868,7 @@
 <script src="data/categories-8.js"></script>
 <script src="data/meta.js"></script>
 <script src="assets/trust.js"></script>
+<script src="assets/context.js"></script>
 <script src="assets/builder.js"></script>
 <script src="assets/scoring.js"></script>
 <script src="assets/finder.js"></script>
@@ -861,6 +901,32 @@
       </a>`;
     }).join('');
   }
+
+  // Task chooser: returning sellers can pick up where they left off, and the task links
+  // open on their own category instead of an empty form
+  const Ctx = window.SellerContext;
+  const resume = document.getElementById('resume');
+  const tasks = Array.from(document.querySelectorAll('.task'));
+  tasks.forEach(a => { a.dataset.href = a.getAttribute('href'); });
+  function showResume() {
+    const { gig, explore } = Ctx ? Ctx.get() : {};
+    const cat = byId[(gig && gig.cat) || (explore && explore.cat)];
+    tasks.forEach(a => {
+      const t = a.dataset.task;
+      a.setAttribute('href', cat && t === 'build' ? 'builder.html?cat=' + cat.id : cat && t === 'research' ? 'categories.html#' + cat.id : a.dataset.href);
+    });
+    if (!cat && !(gig && gig.title)) { resume.hidden = true; return; }
+    const title = gig && gig.title ? (gig.title.length > 70 ? gig.title.slice(0, 68) + '…' : gig.title) : '';
+    resume.innerHTML = `<span class="resume-txt">Pick up where you left off: ${title ? `<b>“${esc(title)}”</b>${cat ? ' · ' + esc(cat.name) : ''}` : `<b>${esc(cat.name)}</b>`}</span>
+      <span class="resume-acts">
+        ${gig ? '<a class="btn btn-sm" href="tool.html">Check my gig →</a>' : ''}
+        ${cat ? `<a class="btn btn-sm${gig ? ' btn-ghost' : ''}" href="builder.html?cat=${cat.id}">Open in Builder</a>` : ''}
+        <button type="button" class="resume-clear">Clear saved info</button>
+      </span>`;
+    resume.hidden = false;
+    resume.querySelector('.resume-clear').addEventListener('click', () => { Ctx.clear(); showResume(); });
+  }
+  if (Ctx) showResume();
 })();
 </script>
 <script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

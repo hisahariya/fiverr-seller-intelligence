@@ -181,6 +181,7 @@
 <script src="data/categories-8.js"></script>
 <script src="data/meta.js"></script>
 <script src="assets/trust.js"></script>
+<script src="assets/context.js"></script>
 <script>
 const CATS = window.CATEGORIES;
 const $ = id => document.getElementById(id);
@@ -328,6 +329,12 @@ function openFromHash() {
   el.querySelector('details:not(.pc-wrap)').open = true;
   el.scrollIntoView();
 }
+
+// Opening a category's full intelligence makes it the one the other tools start from
+document.addEventListener('toggle', e => {
+  const card = e.target.open && !e.target.classList.contains('pc-wrap') && e.target.closest('.cat-card');
+  if (card && window.SellerContext) SellerContext.explore({ cat: card.id });
+}, true);
 
 renderGroups(); render();
 openFromHash();
