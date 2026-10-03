@@ -3,11 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <title>Category Intelligence — Fiverr Keywords, Tags & Pricing</title>
 <meta name="description" content="Keywords, tags, package structures, extras and winning tactics for 80 Fiverr subcategories. Free research for Fiverr sellers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 <script>document.documentElement.classList.add('js')</script>
 <script src="assets/motion.js" defer></script>
@@ -15,9 +17,9 @@
   .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
   .filters input{flex:1;min-width:200px;height:50px;font-size:16px}
   .group-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-  .group-chips button{background:#fff;border:1px solid var(--border-strong);color:var(--text);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,color .2s}
-  .group-chips button:hover{border-color:var(--text)}
-  .group-chips button.on{background:var(--text);border-color:var(--text);color:#fff}
+  .group-chips button{background:#fff;border:1px solid var(--border);color:var(--text-2);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-xs);transition:border-color .2s,background .2s,color .2s}
+  .group-chips button:hover{border-color:var(--border-strong);color:var(--text)}
+  .group-chips button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
   .group-chips button small{font-size:12.5px;opacity:.6;margin-left:3px}
   @media (max-width:600px){.group-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.group-chips::-webkit-scrollbar{display:none}.group-chips button{flex:none}}
   .cat-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -52,8 +54,10 @@
       <span class="brand-word">Gig<span>Health</span>Check</span>
     </a>
     <form class="hdr-search" action="categories.html" role="search">
-      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
-      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <svg class="hs-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories" aria-label="Search categories" autocomplete="off" spellcheck="false">
+      <kbd aria-hidden="true" title="Press / to search">/</kbd>
+      <button type="submit" class="sr">Search</button>
     </form>
     <nav class="site-nav" aria-label="Main">
       <span class="nav-glide" aria-hidden="true"></span>
@@ -80,8 +84,9 @@
 <div class="mobile-menu" id="mobile-menu">
   <div class="mm-inner">
     <form class="mm-search" action="categories.html" role="search">
-      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
-      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <svg class="hs-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories" aria-label="Search categories" autocomplete="off">
+      <button type="submit" class="sr">Search</button>
     </form>
     <p class="mm-label">Free tools</p>
     <a class="mm-tool" href="builder.html"><span class="mi-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></svg></span><span><b>Gig Builder</b><small>Titles, tags, description and 3 packages, ready to paste</small></span></a>
@@ -310,11 +315,23 @@ $('list').addEventListener('click', e => {
 // Typing re-renders on every key, so skip the entrance animation there
 $('search').addEventListener('input', () => { $('list').classList.remove('cascade'); render(); syncUrl(); });
 
-renderGroups(); render();
-if (location.hash) {
-  const el = document.getElementById(location.hash.slice(1));
-  if (el) { el.querySelector('details:not(.pc-wrap)').open = true; el.scrollIntoView(); }
+// Open a category from the address bar (#logo-design), e.g. when it's picked in the header search.
+// Runs on load and again on hashchange, since picking one while already here only changes the hash.
+function openFromHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id || !CATS.some(c => c.id === id)) return;
+  if (!document.getElementById(id)) {
+    activeGroup = 'All'; $('search').value = ''; renderGroups(); render();
+    history.replaceState(null, '', location.pathname + location.hash);
+  }
+  const el = document.getElementById(id);
+  el.querySelector('details:not(.pc-wrap)').open = true;
+  el.scrollIntoView();
 }
+
+renderGroups(); render();
+openFromHash();
+window.addEventListener('hashchange', openFromHash);
 </script>
 <script data-goatcounter="https://gighealthcheck.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

@@ -77,6 +77,15 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
       my title), example gig card, Popular categories tiles (→ Builder), "See your gig the way buyers do" (4 live
       Builder drafts as gig cards), tools, levels, safety + FAQ, pricing, Makeover, guides, waitlist.
       The previous dark design is tagged `v1-dark` if it's ever needed again.
+- [x] **v3 "light" design (2026-10-03, same day)**: the user found v2's deep-green hero and dark tiles too heavy
+      ("looks really dark, less confident... more lightweight, better UX, like engineering with a $100B budget").
+      Now: Inter type, white + pastel surfaces, hairline borders, soft layered shadows, brighter green (#0e9360);
+      hero with a faint grid/aurora background and a product preview (a real Builder draft for Logo Design, scored
+      84 by the Health Check); stats strip; all 10 popular categories as a pastel grid (no hidden carousel); tools as
+      a bento grid with mini interfaces built from real Builder output; favicon + theme colour on every page.
+      UX: live category suggestions in the header search (keyboard combobox, picks open `categories.html#id`),
+      `/` jumps to search, the categories page reacts to `#id` changes, Builder titles use the full width on phones.
+      v2 is tagged `v2-fiverr`.
 - [ ] Optional: one public SEO page per category (80 pages, e.g. "Logo Design on Fiverr: prices, tags and keywords")
       generated from the same profile.
 - [ ] **Decision needed**: pricing vs the market. FivData Pro is $1.99/mo; our Growth Intelligence is $19/mo.
@@ -103,7 +112,8 @@ Also hosted on Cloudflare Workers static assets (`wrangler.jsonc`, deploys from 
   `data.html` the public methodology page. New categories must keep the same fields: 6 kw, 6 tags, 4 titles,
   3 pkgs (prices rising, Standard ≥1.4× and Premium ≥1.8× Basic), 4 extras, 3 FAQs, 3 gallery ideas, 3 tips —
   and be added to a `batches` date in `data/meta.js`.
-- **Site header + footer** (same on all 8 pages, blog included): logo, category search (→ `categories.html?q=`),
+- **Site header + footer** (same on all 8 pages, blog included): logo, category search (→ `categories.html?q=`;
+  on pages that load the dataset, `motion.js` adds live suggestions that open `categories.html#<id>`),
   "Free tools" dropdown with descriptions, Guides, Pricing, "Build free" CTA, and a category bar with the 11
   groups in Fiverr's order (→ `categories.html?group=`). On the homepage the header search stays hidden until the
   hero search scrolls away. The bar spreads across the width when it fits and fades/scrolls when it doesn't.

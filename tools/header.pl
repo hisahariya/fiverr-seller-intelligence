@@ -8,7 +8,8 @@ my %ICON = (
   tool       => '<path d="M3 12h4l2-5 4 10 2-5h6"/>',
   categories => '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
 );
-my $SEARCH_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+my $HS_ICON = '<svg class="hs-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+my $FONT_URL = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
 my @TOOLS = (
   [builder    => 'builder.html',    'Gig Builder',           'Titles, tags, description and 3 packages, ready to paste', 'Start here'],
   [tool       => 'tool.html',       'Gig Health Check',      'Score your gig and compare it with strong gigs in your category', ''],
@@ -64,8 +65,10 @@ sub header_html {
       $BRAND
     </a>
     <form class="hdr-search" action="${p}categories.html" role="search">
-      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
-      <button type="submit" aria-label="Search">$SEARCH_SVG</button>
+      $HS_ICON
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories" aria-label="Search categories" autocomplete="off" spellcheck="false">
+      <kbd aria-hidden="true" title="Press / to search">/</kbd>
+      <button type="submit" class="sr">Search</button>
     </form>
     <nav class="site-nav" aria-label="Main">
       <span class="nav-glide" aria-hidden="true"></span>
@@ -90,8 +93,9 @@ $mega
 <div class="mobile-menu" id="mobile-menu">
   <div class="mm-inner">
     <form class="mm-search" action="${p}categories.html" role="search">
-      <input name="q" type="search" placeholder="Search 80 Fiverr categories…" aria-label="Search categories">
-      <button type="submit" aria-label="Search">$SEARCH_SVG</button>
+      $HS_ICON
+      <input name="q" type="search" placeholder="Search 80 Fiverr categories" aria-label="Search categories" autocomplete="off">
+      <button type="submit" class="sr">Search</button>
     </form>
     <p class="mm-label">Free tools</p>
 $mm
@@ -177,10 +181,15 @@ for my $file (sort keys %PAGES) {
     or $s =~ s{<footer>.*?</footer>}{$f}s
     or die "no footer in $file";
 
-  # Web font (Figtree), once, right before the site stylesheet
-  unless ($s =~ /family=Figtree/) {
-    my $font = qq{<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght\@400;500;600;700;800&display=swap">\n};
+  # Web font (Inter), once, right before the site stylesheet; swaps out any earlier font link
+  unless ($s =~ s{<link rel="stylesheet" href="https://fonts\.googleapis\.com/css2\?[^"]*">}{<link rel="stylesheet" href="$FONT_URL">}) {
+    my $font = qq{<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="$FONT_URL">\n};
     $s =~ s{(<link rel="stylesheet" href="\Q$p\Eassets/site.css">)}{$font$1} or die "no site.css link in $file";
+  }
+
+  # Favicon + browser theme colour, once, after the viewport tag
+  unless ($s =~ /rel="icon"/) {
+    $s =~ s{(<meta name="viewport"[^>]*>\r?\n)}{$1<meta name="theme-color" content="#ffffff">\n<link rel="icon" href="${p}assets/favicon.svg" type="image/svg+xml">\n} or die "no viewport meta in $file";
   }
 
   # Skip-link target

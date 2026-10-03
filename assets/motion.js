@@ -30,6 +30,10 @@
     header.addEventListener('focusin', () => header.classList.remove('tucked'));
     onScroll();
 
+    // Header search: live category suggestions on pages that load the dataset
+    const hs = header.querySelector('.hdr-search');
+    if (hs && root.CATEGORIES && root.CATEGORIES.length) suggest(hs, root.CATEGORIES);
+
     // Category bar: fade its right edge only while more links are hidden off to the right
     const strip = header.querySelector('.cat-strip-inner');
     if (strip) {
@@ -110,6 +114,102 @@
       root.addEventListener('resize', () => { if (!small() && doc.classList.contains('menu-open')) setMenu(false); });
     }
   }
+
+  // Combobox for the header search: up to 6 matching categories, arrow keys + Enter, Esc to close.
+  // Picking one opens it in Category Intelligence; "Search all" submits the form as before.
+  function suggest(form, cats) {
+    const input = form.querySelector('input');
+    const list = document.createElement('ul');
+    list.className = 'hs-list';
+    list.id = 'hdrSuggest';
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('aria-label', 'Matching categories');
+    list.hidden = true;
+    form.appendChild(list);
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-controls', list.id);
+    input.setAttribute('aria-expanded', 'false');
+
+    const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // Match at the start of a word, so "ai" finds "AI agents" but not "email"
+    const atStart = (hay, w) => new RegExp('(^|[^a-z0-9])' + reEsc(w)).test(hay);
+    const index = cats.map(c => ({ c, name: c.name.toLowerCase(), hay: [c.name, c.group, c.noun, ...c.kw, ...c.tags].join(' | ').toLowerCase() }));
+    const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>';
+    let opts = [];
+    let active = -1;
+
+    const find = q => {
+      const words = q.split(/\s+/).filter(Boolean);
+      return index.map(e => {
+        let s = e.name.startsWith(q) ? 60 : atStart(e.name, q) ? 40 : atStart(e.hay, q) ? 20 : 0;
+        words.forEach(w => { s += atStart(e.name, w) ? 6 : atStart(e.hay, w) ? 2 : -100; });
+        return { c: e.c, s };
+      }).filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 6).map(x => x.c);
+    };
+    const mark = (text, q) => {
+      const i = text.toLowerCase().indexOf(q);
+      return i < 0 ? esc(text) : esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+    };
+    const items = () => Array.from(list.children);
+    const setActive = i => {
+      active = i;
+      items().forEach((li, j) => li.setAttribute('aria-selected', String(j === i)));
+      if (i >= 0) { input.setAttribute('aria-activedescendant', items()[i].id); items()[i].scrollIntoView({ block: 'nearest' }); }
+      else input.removeAttribute('aria-activedescendant');
+    };
+    const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); setActive(-1); };
+    const render = () => {
+      const q = input.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!q) { close(); return; }
+      opts = find(q);
+      list.innerHTML = opts.map((c, i) => `<li role="option" id="hs-opt-${i}" data-i="${i}" aria-selected="false"><span class="hs-ic">${ICON}</span><span><b>${mark(c.name, q)}</b><small>${esc(c.group)}</small></span></li>`).join('')
+        + `<li role="option" id="hs-opt-all" data-i="all" class="hs-all" aria-selected="false">Search all categories for “${esc(input.value.trim())}”</li>`;
+      list.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      setActive(-1);
+    };
+    const go = i => {
+      close();
+      if (i === 'all' || !opts[i]) { form.submit(); return; }
+      // categories.html (or ../categories.html on the blog) opens the card from the hash
+      location.href = form.getAttribute('action') + '#' + opts[i].id;
+    };
+
+    input.addEventListener('input', render);
+    input.addEventListener('focus', () => { if (input.value.trim()) render(); });
+    input.addEventListener('blur', () => setTimeout(close, 150));
+    input.addEventListener('keydown', e => {
+      const n = items().length;
+      if (e.key === 'ArrowDown') { e.preventDefault(); if (list.hidden) render(); else if (n) setActive((active + 1) % n); }
+      else if (e.key === 'ArrowUp' && !list.hidden && n) { e.preventDefault(); setActive(active <= 0 ? n - 1 : active - 1); }
+      else if (e.key === 'Escape' && !list.hidden) { e.preventDefault(); close(); }
+      else if (e.key === 'Enter' && !list.hidden && active >= 0) { e.preventDefault(); go(items()[active].dataset.i); }
+    });
+    list.addEventListener('mousedown', e => {
+      const li = e.target.closest('li');
+      if (!li) return;
+      e.preventDefault();
+      go(li.dataset.i);
+    });
+  }
+
+  // "/" jumps to search (the big homepage search while it's on screen, otherwise the header search)
+  document.addEventListener('keydown', e => {
+    if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented) return;
+    const t = e.target;
+    if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    const shown = el => el && el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden';
+    const onScreen = el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < root.innerHeight; };
+    const hero = ['kwInput', 'titleInput'].map(id => document.getElementById(id)).find(shown);
+    const head = document.querySelector('.hdr-search input');
+    const target = hero && onScreen(hero) ? hero : shown(head) && shown(head.closest('.hdr-search')) ? head : hero;
+    if (!target) return;
+    e.preventDefault();
+    target.focus();
+    if (target === hero && !onScreen(hero)) hero.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  });
 
   // Ease a number from 0 up to its target
   function countUp(el, to, dur) {
